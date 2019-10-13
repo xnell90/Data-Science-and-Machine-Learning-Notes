@@ -259,9 +259,9 @@ This histogram simply indicates that most total number of bike rentals at a give
 #Computing the correlation matrix for our data
 corr_bike_rentals = bike_rentals.corr()
 
-sub_columns = ['season', 'yr', 'mnth', 
+sub_columns = ['season', 'yr', 'mnth',
                'holiday', 'weekday',
-               'workingday', 'weathersit', 'hum', 
+               'workingday', 'weathersit', 'hum',
                'windspeed', 'cnt']
 corr_bike_rentals[sub_columns].loc[sub_columns]
 
@@ -446,7 +446,7 @@ Before we can fit a model to our data, it is essential to engineer some features
 
 ```python
 # time_label simply determines whether the hr number
-# represents morning (1), afternoon (2), evening (3), 
+# represents morning (1), afternoon (2), evening (3),
 # and night (4)
 def assign_label(hr):
     if 6 <= hr and hr <= 12:
@@ -984,7 +984,7 @@ test.head(5)
 ```python
 # Here are the predictor variables we will use to predict cnt.
 predictors = ['season', 'yr', 'mnth', 'hr', 'holiday', 'weekday',
-              'workingday', 'weathersit', 'temp', 'atemp', 'hum', 
+              'workingday', 'weathersit', 'temp', 'atemp', 'hum',
               'windspeed', 'time_label']
 ```
 
@@ -1087,4 +1087,3 @@ plt.show()
 
 
 ![png](output_28_0.png)
-
