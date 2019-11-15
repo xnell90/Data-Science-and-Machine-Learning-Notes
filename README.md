@@ -1,5 +1,5 @@
 # Data Science Portfolio
 
 <p style = 'text-align: justify'>
-This repository is a collection of all of my Data Science projects. Some of the projects come from the missions in Dataquest.io, and others are my own.
+This repository is a collection of all of my Data Science projects. Some of the projects come from the missions in Dataquest.io, and others are my own. Note that if one of the jupyter notebooks uses tensorflow, the version they use is 1.13
 </p>
