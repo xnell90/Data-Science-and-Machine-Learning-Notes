@@ -23,19 +23,7 @@ jeopardy.head(5)
 
 
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -132,7 +120,7 @@ def normalize_string(text):
     lowercase_text = text.lower()
     character_list = [c for c in lowercase_text if c not in string.punctuation]
     normalize_text = ''.join(character_list)
-    
+
     return normalize_text
 
 jeopardy['clean_question'] = jeopardy['Question'].apply(normalize_string)
@@ -149,19 +137,7 @@ jeopardy.head(5)
 
 
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -260,7 +236,7 @@ def normalize_integer(string_integer):
     else:
         character_list = [c for c in string_integer if c not in string.punctuation]
         integer = int(''.join(character_list))
-    
+
         return integer
 
 jeopardy['clean_value'] = jeopardy['Value'].apply(normalize_integer)
@@ -278,25 +254,25 @@ We can answer the second question by seeing how often complex words (> 6 charact
 
 
 ```python
-#proportion match sees what proportion of the answer appears 
+#proportion match sees what proportion of the answer appears
 #in the question
 def proportion_match(jeopardy_row):
     split_answer   = jeopardy_row['clean_answer'].split(" ")
     split_question = jeopardy_row['clean_question'].split(" ")
     length_split_answer = len(split_answer)
-    
+
     match_count = 0
     if 'the' in split_answer: split_answer.remove('the')
     if length_split_answer == 0: return 0
-    
+
     for word in split_answer:
         if word in split_question:
             match_count += 1
-        
+
     return match_count / length_split_answer
 
 #use proportion match on every row on the dataset and compute
-#the average proportion of the words in the answer that appear 
+#the average proportion of the words in the answer that appear
 #in the question
 jeopardy['answer_in_question'] = jeopardy.apply(proportion_match, axis = 1)
 jeopardy['answer_in_question'].mean()
@@ -334,15 +310,15 @@ for (_, row) in sorted_jeopardy.iterrows():
     split_question  = row['clean_question'].split(" ")
     split_question  = [word for word in split_question if len(word) >= 6]
     length_question = len(split_question)
-    
+
     match_count = 0
     for word in split_question:
         if word in terms_used: match_count += 1
         terms_used.add(word)
-    
+
     if length_question > 0: match_count /= length_question
     questions_overlap.append(match_count)
-    
+
 jeopardy['questions_overlap'] = questions_overlap
 jeopardy['questions_overlap'].mean()
 ```
@@ -380,7 +356,7 @@ You can then find the words with the biggest differences in usage between high a
 def is_high_value(row):
     if row['clean_value'] > 800: value = 1
     else: value = 0
-    
+
     return value
 
 jeopardy['high_value'] = jeopardy.apply(is_high_value, axis = 1)
@@ -388,13 +364,13 @@ jeopardy['high_value'] = jeopardy.apply(is_high_value, axis = 1)
 def high_low(word):
     low_count  = 0
     high_count = 0
-    
+
     for (_, row) in jeopardy.iterrows():
         split_question = row['clean_question'].split(" ")
         if word in split_question:
             if row['high_value'] == 1: high_count += 1
             else: low_count += 1
-                
+
     return high_count, low_count
 
 observed_expected = []
@@ -419,18 +395,18 @@ chi_squared = []
 for high_low in observed_expected:
     observed_high = high_low[0]
     observed_low  = high_low[1]
-    
+
     total      = high_low[0] + high_low[1]
     total_prop = total / len(jeopardy)
-    
+
     expected_high = total_prop * high_value_count
     expected_low  = total_prop * low_value_count
-    
-    chi_p = chisquare([observed_high, observed_low], 
+
+    chi_p = chisquare([observed_high, observed_low],
                       f_exp = [expected_high, expected_low])
-    
+
     chi_squared.append(chi_p)
-    
+
 chi_squared
 ```
 
