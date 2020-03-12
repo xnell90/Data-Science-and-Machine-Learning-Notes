@@ -8,21 +8,21 @@ import matplotlib.pyplot as plt
 
 
 ```python
-# Question 1: Generate Bitcoin Prices 
-#    1.1) Generate 365 random numbers (precision = 2 digits) between $999.99 and $7,999.99 (Bitcoin Prices) 
-#    1.2) Create a dataframe with 365 successive dates and random numbers (Date, Random Numbers from 1.1) 
-#    1.3) Print the mean and median of the generated Bitcoin prices 
-#    1.4) Print the dates for all the days where the price is greater than $5,000 
-    
-# Question 2: Invest in Bitcoin 
-#    Write a function that does the following: 
-#    2.1) Start with $10,000 in Cash Wallet and 0 units in Bitcoin Wallet. 
-#    2.2) Day 1 - Buy $5,000 of Bitcoin. 
+# Question 1: Generate Bitcoin Prices
+#    1.1) Generate 365 random numbers (precision = 2 digits) between $999.99 and $7,999.99 (Bitcoin Prices)
+#    1.2) Create a dataframe with 365 successive dates and random numbers (Date, Random Numbers from 1.1)
+#    1.3) Print the mean and median of the generated Bitcoin prices
+#    1.4) Print the dates for all the days where the price is greater than $5,000
+
+# Question 2: Invest in Bitcoin
+#    Write a function that does the following:
+#    2.1) Start with $10,000 in Cash Wallet and 0 units in Bitcoin Wallet.
+#    2.2) Day 1 - Buy $5,000 of Bitcoin.
 #         Day 2 - 365, Assume that you the price of Bitcoin going backward.
-#          - If price increased for the last two days sell 50% of Bit Coin Wallet 
+#          - If price increased for the last two days sell 50% of Bit Coin Wallet
 #          - Else if price reduced consecutively previous two days, buy Bitcoin using 50% of cash wallet.
-#          - Otherwise, continue with no transaction. 
-    
+#          - Otherwise, continue with no transaction.
+
 # What is your net worth in Dollars[Cash + Bitcoin] at the end of 365 days?
 ```
 
@@ -71,19 +71,7 @@ print(print_string)
 
 
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -141,19 +129,19 @@ print(print_string)
 
     Mean Bitcoin Prices: 	4473.926904
     Median Bitcoin Prices: 	4464.040000
-    
+
     Here are the days where bitcoin prices where above $5000.00:
-      1,   2,   4,   5,   8,  11,  12,  14,  24,  31,  32,  33,  39,  40, 
-     43,  44,  45,  46,  47,  48,  50,  55,  58,  59,  61,  63,  66,  67, 
-     71,  73,  74,  76,  77,  78,  79,  80,  82,  84,  89,  91,  92,  94, 
-    106, 107, 108, 117, 118, 119, 127, 128, 129, 131, 134, 136, 137, 139, 
-    148, 149, 150, 153, 154, 156, 159, 160, 162, 166, 167, 169, 172, 174, 
-    179, 180, 181, 182, 186, 191, 193, 195, 199, 200, 204, 205, 211, 213, 
-    220, 221, 223, 224, 229, 230, 231, 238, 241, 242, 243, 244, 246, 248, 
-    253, 255, 257, 258, 259, 263, 264, 268, 270, 275, 279, 280, 281, 282, 
-    286, 287, 290, 298, 302, 303, 304, 306, 311, 312, 315, 316, 320, 321, 
-    328, 329, 331, 332, 334, 335, 336, 341, 342, 343, 344, 349, 350, 351, 
-    359, 362, 365, 
+      1,   2,   4,   5,   8,  11,  12,  14,  24,  31,  32,  33,  39,  40,
+     43,  44,  45,  46,  47,  48,  50,  55,  58,  59,  61,  63,  66,  67,
+     71,  73,  74,  76,  77,  78,  79,  80,  82,  84,  89,  91,  92,  94,
+    106, 107, 108, 117, 118, 119, 127, 128, 129, 131, 134, 136, 137, 139,
+    148, 149, 150, 153, 154, 156, 159, 160, 162, 166, 167, 169, 172, 174,
+    179, 180, 181, 182, 186, 191, 193, 195, 199, 200, 204, 205, 211, 213,
+    220, 221, 223, 224, 229, 230, 231, 238, 241, 242, 243, 244, 246, 248,
+    253, 255, 257, 258, 259, 263, 264, 268, 270, 275, 279, 280, 281, 282,
+    286, 287, 290, 298, 302, 303, 304, 306, 311, 312, 315, 316, 320, 321,
+    328, 329, 331, 332, 334, 335, 336, 341, 342, 343, 344, 349, 350, 351,
+    359, 362, 365,
 
 
 # Solution (Question 2)
@@ -171,34 +159,34 @@ def run_strategy():
         if day >= 2:
             current_bitcoin_price  = float(daily_bitcoin_prices.loc[day])
             previous_bitcoin_price = float(daily_bitcoin_prices.loc[day - 1])
-        
+
             difference = current_bitcoin_price - previous_bitcoin_price
-        
+
             if difference > 0:
                 bitcoins_to_sell  = current_bitcoins / 2
                 revenue           = current_bitcoin_price * bitcoins_to_sell
-            
+
                 current_bitcoins -= bitcoins_to_sell
-                current_cash     += revenue 
+                current_cash     += revenue
             elif difference < 0:
                 payment = current_cash / 2
                 bitcoins_to_buy = payment / current_bitcoin_price
-            
+
                 current_bitcoins += bitcoins_to_buy
                 current_cash     -= payment
-        
+
             cash_history.append(current_cash)
             bitcoins_history.append(current_bitcoins)
         else:
             payment = 5000
             current_bitcoin_price = float(daily_bitcoin_prices.loc[day])
-        
+
             current_cash     -= payment
             current_bitcoins += (payment / current_bitcoin_price)
-        
+
             cash_history.append(current_cash)
             bitcoins_history.append(current_bitcoins)
-        
+
     return current_cash, current_bitcoins, cash_history, bitcoins_history
 
 current_cash, current_bitcoins, cash_history, bitcoins_history = run_strategy()
@@ -213,7 +201,7 @@ total_value = current_cash + current_bitcoins * daily_bitcoin_prices.loc[day]
 print("Total Value: \t\t %0.2f" % total_value)
 ```
 
-    Current Cash: 		 13431582335510417408.00 
+    Current Cash: 		 13431582335510417408.00
     Current Bitcoin Amount:      1915056287549454.50
     Total Value: 		 24353895215357100032.00
 
