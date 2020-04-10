@@ -1,6 +1,6 @@
-# Digit Recognizer
+# Classifying Digits Using mlspear
 
-<div style='text-align: justify'>Digit Recognizer is a python GUI application that can identify a number in a user generated image. It uses a neural network that was trained on the MNIST dataset, and it does not use any of the popular deep learning frameworks, instead, it uses mlspear. To evaluate how well this application identifies digits, we will create a fully connected neural network from tensorflow 2.x with Keras, and use it as a baseline model for comparison.</div>
+<div style='text-align: justify'>This notebook is a simple tutorial on how to use mlspear for classifying digits in the MNIST dataset. To evaluate how well it identifies digits, we will create a fully connected neural network from tensorflow 2.x with Keras, and use it as a baseline model for comparison.</div>
 
 
 ```python
