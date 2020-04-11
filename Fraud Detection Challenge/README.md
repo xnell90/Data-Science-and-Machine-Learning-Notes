@@ -1,4 +1,3 @@
-
 # Extracting The Country From The I.P Adress
 
 Before we can do any data analysis and model creation, let us add a new column called 'country' in the fraud data table that indicates from which country did the user purchase the item. We can do this by using the ip_address table, i.e if an I.P address falls within a certain range, then we can find the country of origin.
@@ -26,7 +25,19 @@ display(ip_address_to_country.head(5))
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -122,7 +133,19 @@ display(ip_address_to_country.head(5))
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -187,11 +210,12 @@ fraud_data['country'] = np.vectorize(ip_to_country)(fraud_data['ip_address'])
 print("Time taken to complete process (seconds): %s" % (time.time() - start_time))
 ```
 
-    Time taken to complete process (seconds): 444.6918411254883
+    Time taken to complete process (seconds): 496.68095898628235
 
 
 
 ```python
+fraud_data.drop(columns = ['ip_address'], inplace = True)
 fraud_data.head(15)
 ```
 
@@ -199,7 +223,19 @@ fraud_data.head(15)
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -213,7 +249,6 @@ fraud_data.head(15)
       <th>browser</th>
       <th>sex</th>
       <th>age</th>
-      <th>ip_address</th>
       <th>class</th>
       <th>country</th>
     </tr>
@@ -230,7 +265,6 @@ fraud_data.head(15)
       <td>Chrome</td>
       <td>M</td>
       <td>39</td>
-      <td>7.327584e+08</td>
       <td>0</td>
       <td>Japan</td>
     </tr>
@@ -245,7 +279,6 @@ fraud_data.head(15)
       <td>Chrome</td>
       <td>F</td>
       <td>53</td>
-      <td>3.503114e+08</td>
       <td>0</td>
       <td>United States</td>
     </tr>
@@ -260,7 +293,6 @@ fraud_data.head(15)
       <td>Opera</td>
       <td>M</td>
       <td>53</td>
-      <td>2.621474e+09</td>
       <td>1</td>
       <td>United States</td>
     </tr>
@@ -275,7 +307,6 @@ fraud_data.head(15)
       <td>Safari</td>
       <td>M</td>
       <td>41</td>
-      <td>3.840542e+09</td>
       <td>0</td>
       <td>None</td>
     </tr>
@@ -290,7 +321,6 @@ fraud_data.head(15)
       <td>Safari</td>
       <td>M</td>
       <td>45</td>
-      <td>4.155831e+08</td>
       <td>0</td>
       <td>United States</td>
     </tr>
@@ -305,7 +335,6 @@ fraud_data.head(15)
       <td>Chrome</td>
       <td>M</td>
       <td>18</td>
-      <td>2.809315e+09</td>
       <td>0</td>
       <td>Canada</td>
     </tr>
@@ -320,7 +349,6 @@ fraud_data.head(15)
       <td>Chrome</td>
       <td>F</td>
       <td>19</td>
-      <td>3.987484e+09</td>
       <td>0</td>
       <td>None</td>
     </tr>
@@ -335,7 +363,6 @@ fraud_data.head(15)
       <td>Opera</td>
       <td>M</td>
       <td>34</td>
-      <td>1.692459e+09</td>
       <td>0</td>
       <td>United States</td>
     </tr>
@@ -350,7 +377,6 @@ fraud_data.head(15)
       <td>IE</td>
       <td>F</td>
       <td>43</td>
-      <td>3.719094e+09</td>
       <td>0</td>
       <td>China</td>
     </tr>
@@ -365,7 +391,6 @@ fraud_data.head(15)
       <td>IE</td>
       <td>M</td>
       <td>31</td>
-      <td>3.416747e+08</td>
       <td>0</td>
       <td>United States</td>
     </tr>
@@ -380,7 +405,6 @@ fraud_data.head(15)
       <td>Safari</td>
       <td>F</td>
       <td>35</td>
-      <td>1.819009e+09</td>
       <td>0</td>
       <td>United States</td>
     </tr>
@@ -395,7 +419,6 @@ fraud_data.head(15)
       <td>Chrome</td>
       <td>M</td>
       <td>32</td>
-      <td>4.038285e+09</td>
       <td>0</td>
       <td>None</td>
     </tr>
@@ -410,7 +433,6 @@ fraud_data.head(15)
       <td>Safari</td>
       <td>M</td>
       <td>33</td>
-      <td>4.161541e+09</td>
       <td>0</td>
       <td>None</td>
     </tr>
@@ -425,7 +447,6 @@ fraud_data.head(15)
       <td>Safari</td>
       <td>M</td>
       <td>38</td>
-      <td>3.178510e+09</td>
       <td>0</td>
       <td>Brazil</td>
     </tr>
@@ -440,7 +461,6 @@ fraud_data.head(15)
       <td>IE</td>
       <td>M</td>
       <td>24</td>
-      <td>4.203488e+09</td>
       <td>0</td>
       <td>None</td>
     </tr>
@@ -453,7 +473,7 @@ fraud_data.head(15)
 
 ```python
 #Save the fraud data with country column
-fraud_data.to_csv("fraud_data_with_country.csv")
+fraud_data.to_csv("Fraud_Data_With_Country.csv")
 ```
 
 To save a bit of time, there is a file called fraud_data_with_country that is the result of running the above cells. If it takes too long to find the country from the ip address for 151,000 rows, simply run the cell below.
@@ -461,7 +481,7 @@ To save a bit of time, there is a file called fraud_data_with_country that is th
 
 ```python
 #If fraud_data_with_country.csv file exists simply load it into a dataframe
-fraud_data = pd.read_csv("fraud_data_with_country.csv", index_col = 0)
+fraud_data = pd.read_csv("Fraud_Data_With_Country.csv", index_col = 0)
 ```
 
 # Exploratory Data Analysis
@@ -493,7 +513,19 @@ for device_id in duplicated_device_ids[0:10]:
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -507,161 +539,178 @@ for device_id in duplicated_device_ids[0:10]:
       <th>browser</th>
       <th>sex</th>
       <th>age</th>
-      <th>ip_address</th>
       <th>class</th>
       <th>country</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>16080</th>
-      <td>89282</td>
-      <td>2015-01-12 05:38:30</td>
-      <td>2015-01-12 05:38:31</td>
-      <td>10</td>
-      <td>VGCGSGCJILYYI</td>
-      <td>Direct</td>
-      <td>Chrome</td>
-      <td>M</td>
-      <td>39</td>
-      <td>3.744589e+09</td>
+      <th>13785</th>
+      <td>150834</td>
+      <td>2015-01-07 16:42:42</td>
+      <td>2015-01-07 16:42:43</td>
+      <td>64</td>
+      <td>HHSLZRTYDORAZ</td>
+      <td>SEO</td>
+      <td>Safari</td>
+      <td>F</td>
+      <td>23</td>
       <td>1</td>
-      <td>Korea Republic of</td>
+      <td>Sweden</td>
     </tr>
     <tr>
-      <th>28029</th>
-      <td>56660</td>
-      <td>2015-01-12 05:38:28</td>
-      <td>2015-01-12 05:38:29</td>
-      <td>10</td>
-      <td>VGCGSGCJILYYI</td>
-      <td>Direct</td>
-      <td>Chrome</td>
-      <td>M</td>
-      <td>39</td>
-      <td>3.744589e+09</td>
+      <th>21144</th>
+      <td>313886</td>
+      <td>2015-01-07 16:42:47</td>
+      <td>2015-01-07 16:42:48</td>
+      <td>64</td>
+      <td>HHSLZRTYDORAZ</td>
+      <td>SEO</td>
+      <td>Safari</td>
+      <td>F</td>
+      <td>23</td>
       <td>1</td>
-      <td>Korea Republic of</td>
+      <td>Sweden</td>
     </tr>
     <tr>
-      <th>29457</th>
-      <td>196694</td>
-      <td>2015-01-12 05:38:31</td>
-      <td>2015-01-12 05:38:32</td>
-      <td>10</td>
-      <td>VGCGSGCJILYYI</td>
-      <td>Direct</td>
-      <td>Chrome</td>
-      <td>M</td>
-      <td>39</td>
-      <td>3.744589e+09</td>
+      <th>29106</th>
+      <td>122498</td>
+      <td>2015-01-07 16:42:45</td>
+      <td>2015-01-07 16:42:46</td>
+      <td>64</td>
+      <td>HHSLZRTYDORAZ</td>
+      <td>SEO</td>
+      <td>Safari</td>
+      <td>F</td>
+      <td>23</td>
       <td>1</td>
-      <td>Korea Republic of</td>
+      <td>Sweden</td>
     </tr>
     <tr>
-      <th>37861</th>
-      <td>390533</td>
-      <td>2015-01-12 05:38:26</td>
-      <td>2015-03-24 05:42:39</td>
-      <td>10</td>
-      <td>VGCGSGCJILYYI</td>
-      <td>Direct</td>
-      <td>Chrome</td>
-      <td>M</td>
-      <td>39</td>
-      <td>3.744589e+09</td>
-      <td>0</td>
-      <td>Korea Republic of</td>
+      <th>34039</th>
+      <td>332173</td>
+      <td>2015-01-07 16:42:46</td>
+      <td>2015-01-07 16:42:47</td>
+      <td>64</td>
+      <td>HHSLZRTYDORAZ</td>
+      <td>SEO</td>
+      <td>Safari</td>
+      <td>F</td>
+      <td>23</td>
+      <td>1</td>
+      <td>Sweden</td>
     </tr>
     <tr>
-      <th>81068</th>
-      <td>228713</td>
-      <td>2015-01-12 05:38:32</td>
-      <td>2015-01-12 05:38:33</td>
-      <td>10</td>
-      <td>VGCGSGCJILYYI</td>
-      <td>Direct</td>
-      <td>Chrome</td>
-      <td>M</td>
-      <td>39</td>
-      <td>3.744589e+09</td>
+      <th>50929</th>
+      <td>229134</td>
+      <td>2015-01-07 16:42:41</td>
+      <td>2015-01-07 16:42:42</td>
+      <td>64</td>
+      <td>HHSLZRTYDORAZ</td>
+      <td>SEO</td>
+      <td>Safari</td>
+      <td>F</td>
+      <td>23</td>
       <td>1</td>
-      <td>Korea Republic of</td>
+      <td>Sweden</td>
     </tr>
     <tr>
-      <th>94498</th>
-      <td>39903</td>
-      <td>2015-01-12 05:38:27</td>
-      <td>2015-01-12 05:38:28</td>
-      <td>10</td>
-      <td>VGCGSGCJILYYI</td>
-      <td>Direct</td>
-      <td>Chrome</td>
-      <td>M</td>
-      <td>39</td>
-      <td>3.744589e+09</td>
+      <th>110016</th>
+      <td>216327</td>
+      <td>2015-01-07 16:42:40</td>
+      <td>2015-01-07 16:42:41</td>
+      <td>64</td>
+      <td>HHSLZRTYDORAZ</td>
+      <td>SEO</td>
+      <td>Safari</td>
+      <td>F</td>
+      <td>23</td>
       <td>1</td>
-      <td>Korea Republic of</td>
+      <td>Sweden</td>
     </tr>
     <tr>
-      <th>97853</th>
-      <td>13822</td>
-      <td>2015-01-12 05:38:35</td>
-      <td>2015-01-12 05:38:36</td>
-      <td>10</td>
-      <td>VGCGSGCJILYYI</td>
-      <td>Direct</td>
-      <td>Chrome</td>
-      <td>M</td>
-      <td>39</td>
-      <td>3.744589e+09</td>
+      <th>119328</th>
+      <td>108442</td>
+      <td>2015-01-07 16:42:39</td>
+      <td>2015-01-07 16:42:40</td>
+      <td>64</td>
+      <td>HHSLZRTYDORAZ</td>
+      <td>SEO</td>
+      <td>Safari</td>
+      <td>F</td>
+      <td>23</td>
       <td>1</td>
-      <td>Korea Republic of</td>
+      <td>Sweden</td>
     </tr>
     <tr>
-      <th>100964</th>
-      <td>222104</td>
-      <td>2015-01-12 05:38:29</td>
-      <td>2015-01-12 05:38:30</td>
-      <td>10</td>
-      <td>VGCGSGCJILYYI</td>
-      <td>Direct</td>
-      <td>Chrome</td>
-      <td>M</td>
-      <td>39</td>
-      <td>3.744589e+09</td>
+      <th>121004</th>
+      <td>326979</td>
+      <td>2015-01-07 16:42:44</td>
+      <td>2015-01-07 16:42:45</td>
+      <td>64</td>
+      <td>HHSLZRTYDORAZ</td>
+      <td>SEO</td>
+      <td>Safari</td>
+      <td>F</td>
+      <td>23</td>
       <td>1</td>
-      <td>Korea Republic of</td>
+      <td>Sweden</td>
     </tr>
     <tr>
-      <th>109669</th>
-      <td>173800</td>
-      <td>2015-01-12 05:38:34</td>
-      <td>2015-01-12 05:38:35</td>
-      <td>10</td>
-      <td>VGCGSGCJILYYI</td>
-      <td>Direct</td>
-      <td>Chrome</td>
-      <td>M</td>
-      <td>39</td>
-      <td>3.744589e+09</td>
+      <th>123510</th>
+      <td>131945</td>
+      <td>2015-01-07 16:42:38</td>
+      <td>2015-01-07 16:42:39</td>
+      <td>64</td>
+      <td>HHSLZRTYDORAZ</td>
+      <td>SEO</td>
+      <td>Safari</td>
+      <td>F</td>
+      <td>23</td>
       <td>1</td>
-      <td>Korea Republic of</td>
+      <td>Sweden</td>
     </tr>
     <tr>
-      <th>140752</th>
-      <td>164891</td>
-      <td>2015-01-12 05:38:33</td>
-      <td>2015-01-12 05:38:34</td>
-      <td>10</td>
-      <td>VGCGSGCJILYYI</td>
-      <td>Direct</td>
-      <td>Chrome</td>
-      <td>M</td>
-      <td>39</td>
-      <td>3.744589e+09</td>
+      <th>133245</th>
+      <td>96728</td>
+      <td>2015-01-07 16:42:37</td>
+      <td>2015-01-07 16:42:38</td>
+      <td>64</td>
+      <td>HHSLZRTYDORAZ</td>
+      <td>SEO</td>
+      <td>Safari</td>
+      <td>F</td>
+      <td>23</td>
       <td>1</td>
-      <td>Korea Republic of</td>
+      <td>Sweden</td>
+    </tr>
+    <tr>
+      <th>140122</th>
+      <td>173801</td>
+      <td>2015-01-07 16:42:36</td>
+      <td>2015-01-13 08:46:41</td>
+      <td>64</td>
+      <td>HHSLZRTYDORAZ</td>
+      <td>SEO</td>
+      <td>Safari</td>
+      <td>F</td>
+      <td>23</td>
+      <td>1</td>
+      <td>Sweden</td>
+    </tr>
+    <tr>
+      <th>145770</th>
+      <td>105970</td>
+      <td>2015-01-07 16:42:43</td>
+      <td>2015-01-07 16:42:44</td>
+      <td>64</td>
+      <td>HHSLZRTYDORAZ</td>
+      <td>SEO</td>
+      <td>Safari</td>
+      <td>F</td>
+      <td>23</td>
+      <td>1</td>
+      <td>Sweden</td>
     </tr>
   </tbody>
 </table>
@@ -670,7 +719,19 @@ for device_id in duplicated_device_ids[0:10]:
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -684,323 +745,136 @@ for device_id in duplicated_device_ids[0:10]:
       <th>browser</th>
       <th>sex</th>
       <th>age</th>
-      <th>ip_address</th>
       <th>class</th>
       <th>country</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th>14202</th>
-      <td>94701</td>
-      <td>2015-01-05 08:08:37</td>
-      <td>2015-01-05 08:08:38</td>
-      <td>12</td>
-      <td>ROGEGTJRATEKV</td>
-      <td>SEO</td>
-      <td>Opera</td>
+      <th>36737</th>
+      <td>227436</td>
+      <td>2015-01-05 01:39:25</td>
+      <td>2015-01-05 01:39:26</td>
+      <td>23</td>
+      <td>GNRJENYOWIXDP</td>
+      <td>Ads</td>
+      <td>Chrome</td>
       <td>M</td>
-      <td>37</td>
-      <td>2.751388e+09</td>
+      <td>49</td>
       <td>1</td>
       <td>United States</td>
     </tr>
     <tr>
-      <th>49546</th>
-      <td>143809</td>
-      <td>2015-01-05 08:08:35</td>
-      <td>2015-01-05 08:08:36</td>
-      <td>12</td>
-      <td>ROGEGTJRATEKV</td>
-      <td>SEO</td>
-      <td>Opera</td>
+      <th>67390</th>
+      <td>176439</td>
+      <td>2015-01-05 01:39:23</td>
+      <td>2015-01-05 01:39:24</td>
+      <td>23</td>
+      <td>GNRJENYOWIXDP</td>
+      <td>Ads</td>
+      <td>Chrome</td>
       <td>M</td>
-      <td>37</td>
-      <td>2.751388e+09</td>
+      <td>49</td>
       <td>1</td>
       <td>United States</td>
     </tr>
     <tr>
-      <th>57356</th>
-      <td>163168</td>
-      <td>2015-01-05 08:08:32</td>
-      <td>2015-01-19 10:13:44</td>
-      <td>12</td>
-      <td>ROGEGTJRATEKV</td>
-      <td>SEO</td>
-      <td>Opera</td>
+      <th>76564</th>
+      <td>155839</td>
+      <td>2015-01-05 01:39:27</td>
+      <td>2015-01-05 01:39:28</td>
+      <td>23</td>
+      <td>GNRJENYOWIXDP</td>
+      <td>Ads</td>
+      <td>Chrome</td>
       <td>M</td>
-      <td>37</td>
-      <td>2.751388e+09</td>
+      <td>49</td>
+      <td>1</td>
+      <td>United States</td>
+    </tr>
+    <tr>
+      <th>82948</th>
+      <td>317222</td>
+      <td>2015-01-05 01:39:29</td>
+      <td>2015-01-05 01:39:30</td>
+      <td>23</td>
+      <td>GNRJENYOWIXDP</td>
+      <td>Ads</td>
+      <td>Chrome</td>
+      <td>M</td>
+      <td>49</td>
+      <td>1</td>
+      <td>United States</td>
+    </tr>
+    <tr>
+      <th>104187</th>
+      <td>398472</td>
+      <td>2015-01-05 01:39:22</td>
+      <td>2015-03-31 01:24:41</td>
+      <td>23</td>
+      <td>GNRJENYOWIXDP</td>
+      <td>Ads</td>
+      <td>Chrome</td>
+      <td>M</td>
+      <td>49</td>
       <td>0</td>
       <td>United States</td>
     </tr>
     <tr>
-      <th>59514</th>
-      <td>190985</td>
-      <td>2015-01-05 08:08:43</td>
-      <td>2015-01-05 08:08:44</td>
-      <td>12</td>
-      <td>ROGEGTJRATEKV</td>
-      <td>SEO</td>
-      <td>Opera</td>
-      <td>M</td>
-      <td>37</td>
-      <td>2.751388e+09</td>
-      <td>1</td>
-      <td>United States</td>
-    </tr>
-    <tr>
-      <th>69932</th>
-      <td>50055</td>
-      <td>2015-01-05 08:08:38</td>
-      <td>2015-01-05 08:08:39</td>
-      <td>12</td>
-      <td>ROGEGTJRATEKV</td>
-      <td>SEO</td>
-      <td>Opera</td>
-      <td>M</td>
-      <td>37</td>
-      <td>2.751388e+09</td>
-      <td>1</td>
-      <td>United States</td>
-    </tr>
-    <tr>
-      <th>88237</th>
-      <td>72269</td>
-      <td>2015-01-05 08:08:40</td>
-      <td>2015-01-05 08:08:41</td>
-      <td>12</td>
-      <td>ROGEGTJRATEKV</td>
-      <td>SEO</td>
-      <td>Opera</td>
-      <td>M</td>
-      <td>37</td>
-      <td>2.751388e+09</td>
-      <td>1</td>
-      <td>United States</td>
-    </tr>
-    <tr>
-      <th>89781</th>
-      <td>315717</td>
-      <td>2015-01-05 08:08:36</td>
-      <td>2015-01-05 08:08:37</td>
-      <td>12</td>
-      <td>ROGEGTJRATEKV</td>
-      <td>SEO</td>
-      <td>Opera</td>
-      <td>M</td>
-      <td>37</td>
-      <td>2.751388e+09</td>
-      <td>1</td>
-      <td>United States</td>
-    </tr>
-    <tr>
-      <th>110523</th>
-      <td>264878</td>
-      <td>2015-01-05 08:08:34</td>
-      <td>2015-01-05 08:08:35</td>
-      <td>12</td>
-      <td>ROGEGTJRATEKV</td>
-      <td>SEO</td>
-      <td>Opera</td>
-      <td>M</td>
-      <td>37</td>
-      <td>2.751388e+09</td>
-      <td>1</td>
-      <td>United States</td>
-    </tr>
-    <tr>
-      <th>124254</th>
-      <td>9168</td>
-      <td>2015-01-05 08:08:41</td>
-      <td>2015-01-05 08:08:42</td>
-      <td>12</td>
-      <td>ROGEGTJRATEKV</td>
-      <td>SEO</td>
-      <td>Opera</td>
-      <td>M</td>
-      <td>37</td>
-      <td>2.751388e+09</td>
-      <td>1</td>
-      <td>United States</td>
-    </tr>
-    <tr>
-      <th>126713</th>
-      <td>328379</td>
-      <td>2015-01-05 08:08:33</td>
-      <td>2015-01-05 08:08:34</td>
-      <td>12</td>
-      <td>ROGEGTJRATEKV</td>
-      <td>SEO</td>
-      <td>Opera</td>
-      <td>M</td>
-      <td>37</td>
-      <td>2.751388e+09</td>
-      <td>1</td>
-      <td>United States</td>
-    </tr>
-    <tr>
-      <th>128611</th>
-      <td>380729</td>
-      <td>2015-01-05 08:08:39</td>
-      <td>2015-01-05 08:08:40</td>
-      <td>12</td>
-      <td>ROGEGTJRATEKV</td>
-      <td>SEO</td>
-      <td>Opera</td>
-      <td>M</td>
-      <td>37</td>
-      <td>2.751388e+09</td>
-      <td>1</td>
-      <td>United States</td>
-    </tr>
-    <tr>
-      <th>128671</th>
-      <td>219587</td>
-      <td>2015-01-05 08:08:42</td>
-      <td>2015-01-05 08:08:43</td>
-      <td>12</td>
-      <td>ROGEGTJRATEKV</td>
-      <td>SEO</td>
-      <td>Opera</td>
-      <td>M</td>
-      <td>37</td>
-      <td>2.751388e+09</td>
-      <td>1</td>
-      <td>United States</td>
-    </tr>
-    <tr>
-      <th>130826</th>
-      <td>67477</td>
-      <td>2015-01-05 08:08:44</td>
-      <td>2015-01-05 08:08:45</td>
-      <td>12</td>
-      <td>ROGEGTJRATEKV</td>
-      <td>SEO</td>
-      <td>Opera</td>
-      <td>M</td>
-      <td>37</td>
-      <td>2.751388e+09</td>
-      <td>1</td>
-      <td>United States</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-<div>
-
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>user_id</th>
-      <th>signup_time</th>
-      <th>purchase_time</th>
-      <th>purchase_value</th>
-      <th>device_id</th>
-      <th>source</th>
-      <th>browser</th>
-      <th>sex</th>
-      <th>age</th>
-      <th>ip_address</th>
-      <th>class</th>
-      <th>country</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>6463</th>
-      <td>232759</td>
-      <td>2015-01-06 00:05:53</td>
-      <td>2015-01-06 00:05:54</td>
-      <td>15</td>
-      <td>KLCMFZVFBRYOP</td>
+      <th>127210</th>
+      <td>255540</td>
+      <td>2015-01-05 01:39:24</td>
+      <td>2015-01-05 01:39:25</td>
+      <td>23</td>
+      <td>GNRJENYOWIXDP</td>
       <td>Ads</td>
       <td>Chrome</td>
       <td>M</td>
-      <td>36</td>
-      <td>1.819146e+07</td>
+      <td>49</td>
       <td>1</td>
-      <td>Japan</td>
+      <td>United States</td>
     </tr>
     <tr>
-      <th>26526</th>
-      <td>326442</td>
-      <td>2015-01-06 00:05:49</td>
-      <td>2015-01-06 00:05:50</td>
-      <td>15</td>
-      <td>KLCMFZVFBRYOP</td>
+      <th>140155</th>
+      <td>167770</td>
+      <td>2015-01-05 01:39:30</td>
+      <td>2015-01-05 01:39:31</td>
+      <td>23</td>
+      <td>GNRJENYOWIXDP</td>
       <td>Ads</td>
       <td>Chrome</td>
       <td>M</td>
-      <td>36</td>
-      <td>1.819146e+07</td>
+      <td>49</td>
       <td>1</td>
-      <td>Japan</td>
+      <td>United States</td>
     </tr>
     <tr>
-      <th>70352</th>
-      <td>201313</td>
-      <td>2015-01-06 00:05:52</td>
-      <td>2015-01-06 00:05:53</td>
-      <td>15</td>
-      <td>KLCMFZVFBRYOP</td>
+      <th>142540</th>
+      <td>399697</td>
+      <td>2015-01-05 01:39:26</td>
+      <td>2015-01-05 01:39:27</td>
+      <td>23</td>
+      <td>GNRJENYOWIXDP</td>
       <td>Ads</td>
       <td>Chrome</td>
       <td>M</td>
-      <td>36</td>
-      <td>1.819146e+07</td>
+      <td>49</td>
       <td>1</td>
-      <td>Japan</td>
+      <td>United States</td>
     </tr>
     <tr>
-      <th>100683</th>
-      <td>330259</td>
-      <td>2015-01-06 00:05:51</td>
-      <td>2015-01-06 00:05:52</td>
-      <td>15</td>
-      <td>KLCMFZVFBRYOP</td>
+      <th>150685</th>
+      <td>270127</td>
+      <td>2015-01-05 01:39:28</td>
+      <td>2015-01-05 01:39:29</td>
+      <td>23</td>
+      <td>GNRJENYOWIXDP</td>
       <td>Ads</td>
       <td>Chrome</td>
       <td>M</td>
-      <td>36</td>
-      <td>1.819146e+07</td>
+      <td>49</td>
       <td>1</td>
-      <td>Japan</td>
-    </tr>
-    <tr>
-      <th>104182</th>
-      <td>293688</td>
-      <td>2015-01-06 00:05:48</td>
-      <td>2015-05-03 01:13:05</td>
-      <td>15</td>
-      <td>KLCMFZVFBRYOP</td>
-      <td>Ads</td>
-      <td>Chrome</td>
-      <td>M</td>
-      <td>36</td>
-      <td>1.819146e+07</td>
-      <td>0</td>
-      <td>Japan</td>
-    </tr>
-    <tr>
-      <th>135857</th>
-      <td>59988</td>
-      <td>2015-01-06 00:05:50</td>
-      <td>2015-01-06 00:05:51</td>
-      <td>15</td>
-      <td>KLCMFZVFBRYOP</td>
-      <td>Ads</td>
-      <td>Chrome</td>
-      <td>M</td>
-      <td>36</td>
-      <td>1.819146e+07</td>
-      <td>1</td>
-      <td>Japan</td>
+      <td>United States</td>
     </tr>
   </tbody>
 </table>
@@ -1026,7 +900,19 @@ fraud_data.head(5)
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -1040,7 +926,6 @@ fraud_data.head(5)
       <th>browser</th>
       <th>sex</th>
       <th>age</th>
-      <th>ip_address</th>
       <th>class</th>
       <th>country</th>
       <th>time_duration (secs)</th>
@@ -1058,7 +943,6 @@ fraud_data.head(5)
       <td>Chrome</td>
       <td>M</td>
       <td>39</td>
-      <td>7.327584e+08</td>
       <td>0</td>
       <td>Japan</td>
       <td>4506682</td>
@@ -1074,7 +958,6 @@ fraud_data.head(5)
       <td>Chrome</td>
       <td>F</td>
       <td>53</td>
-      <td>3.503114e+08</td>
       <td>0</td>
       <td>United States</td>
       <td>17944</td>
@@ -1090,7 +973,6 @@ fraud_data.head(5)
       <td>Opera</td>
       <td>M</td>
       <td>53</td>
-      <td>2.621474e+09</td>
       <td>1</td>
       <td>United States</td>
       <td>1</td>
@@ -1106,7 +988,6 @@ fraud_data.head(5)
       <td>Safari</td>
       <td>M</td>
       <td>41</td>
-      <td>3.840542e+09</td>
       <td>0</td>
       <td>None</td>
       <td>492085</td>
@@ -1122,7 +1003,6 @@ fraud_data.head(5)
       <td>Safari</td>
       <td>M</td>
       <td>45</td>
-      <td>4.155831e+08</td>
       <td>0</td>
       <td>United States</td>
       <td>4361461</td>
@@ -1137,11 +1017,8 @@ Now lets analyse the devices that have more than 2 users.
 
 
 ```python
-num_unique_users_to_device_id \
-= fraud_data[['user_id', 'device_id']].groupby('device_id').count()
-
-num_unique_users_to_device_id.rename(columns = {'user_id': 'num_unique_user_ids'}, 
-                                     inplace = True)
+num_unique_users_to_device_id = fraud_data[['user_id', 'device_id']].groupby('device_id').count()
+num_unique_users_to_device_id.rename(columns = {'user_id': 'num_unique_user_ids'}, inplace = True)
 
 minimum_num_users = num_unique_users_to_device_id['num_unique_user_ids'].min()
 maximum_num_users = num_unique_users_to_device_id['num_unique_user_ids'].max()
@@ -1151,8 +1028,7 @@ print("Maximum number of users per device id: %d" % maximum_num_users)
 
 count_devices_to_num_users = []
 for num_users in range(3, 21):
-    num_user_condition = (num_unique_users_to_device_id['num_unique_user_ids'] 
-                          == num_users)
+    num_user_condition = (num_unique_users_to_device_id['num_unique_user_ids'] == num_users)
     num = num_unique_users_to_device_id[num_user_condition].shape[0]
     count_devices_to_num_users.append(num)
 
@@ -1239,8 +1115,8 @@ The KDE plot demonstrates that the distribution between fraudulent and non fraud
 
 
 ```python
-plt.pie(fraud_data[fraud_data['class'] == 1]['source'].value_counts(),
-        colors = ['#ff9999','#66b3ff','#99ff99'])
+colors = ['#ff9999','#66b3ff','#99ff99']
+plt.pie(fraud_data[fraud_data['class'] == 1]['source'].value_counts(), colors = colors)
 plt.title("How did fraudsters get access to the website?")
 plt.legend(['Ads', 'SEO', 'Direct'], bbox_to_anchor = (1.0, 1.0))
 plt.show()
@@ -1254,8 +1130,8 @@ Most of them got access to the website through advertisements, and search engine
 
 
 ```python
-plt.pie(fraud_data[fraud_data['class'] == 1]['browser'].value_counts(),
-        colors = ['#ff9999','#66b3ff','#99ff99','#ffcc98', 'yellow'])
+colors = ['#ff9999','#66b3ff','#99ff99','#ffcc98', 'yellow']
+plt.pie(fraud_data[fraud_data['class'] == 1]['browser'].value_counts(), colors = colors)
 plt.title("Which is the most commonly used browser for fraudsters?")
 plt.legend(['Chrome', 'IE', 'FireFox', 'Safari', 'Opera'], bbox_to_anchor=(1.0, 1.0))
 plt.show()
@@ -1294,10 +1170,13 @@ for country in country_to_fraud_count.index:
         dictionary['Other Nations'] += country_to_fraud_count.loc[country].values[0]
 
 country_to_fraud_count = pd.Series(dictionary)
-plt.pie(country_to_fraud_count,
-        colors = ['#ff9999','#66b3ff','#99ff99','#ffcc98', 'yellow', 'magenta'])
+
+colors = ['#ff9999','#66b3ff','#99ff99','#ffcc98', 'yellow', 'magenta']
+plt.pie(country_to_fraud_count, colors = colors)
 plt.title("Country-wise, where are the fraudulent transactions coming from?")
-plt.legend(['Other Nations', 'United States', 'None', 'China', 'Japan', 'United Kingdom'], bbox_to_anchor=(1.0, 1.0))
+
+countries = ['Other Nations', 'United States', 'None', 'China', 'Japan', 'United Kingdom']
+plt.legend(countries, bbox_to_anchor = (1.0, 1.0))
 plt.show()
 ```
 
@@ -1313,8 +1192,9 @@ As a preprocessing step, we will add the number of unique users column into our 
 
 
 ```python
-fraud_data['num_unique_users_for_device'] \
-= fraud_data['device_id'].apply(lambda x: num_unique_users_to_device_id.loc[x])
+fraud_data['num_unique_users_for_device'] = (
+    fraud_data['device_id'].apply(lambda x: num_unique_users_to_device_id.loc[x])
+)
 
 fraud_data.head(10)
 ```
@@ -1323,7 +1203,19 @@ fraud_data.head(10)
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -1337,7 +1229,6 @@ fraud_data.head(10)
       <th>browser</th>
       <th>sex</th>
       <th>age</th>
-      <th>ip_address</th>
       <th>class</th>
       <th>country</th>
       <th>time_duration (secs)</th>
@@ -1356,7 +1247,6 @@ fraud_data.head(10)
       <td>Chrome</td>
       <td>M</td>
       <td>39</td>
-      <td>7.327584e+08</td>
       <td>0</td>
       <td>Japan</td>
       <td>4506682</td>
@@ -1373,7 +1263,6 @@ fraud_data.head(10)
       <td>Chrome</td>
       <td>F</td>
       <td>53</td>
-      <td>3.503114e+08</td>
       <td>0</td>
       <td>United States</td>
       <td>17944</td>
@@ -1390,7 +1279,6 @@ fraud_data.head(10)
       <td>Opera</td>
       <td>M</td>
       <td>53</td>
-      <td>2.621474e+09</td>
       <td>1</td>
       <td>United States</td>
       <td>1</td>
@@ -1407,7 +1295,6 @@ fraud_data.head(10)
       <td>Safari</td>
       <td>M</td>
       <td>41</td>
-      <td>3.840542e+09</td>
       <td>0</td>
       <td>None</td>
       <td>492085</td>
@@ -1424,7 +1311,6 @@ fraud_data.head(10)
       <td>Safari</td>
       <td>M</td>
       <td>45</td>
-      <td>4.155831e+08</td>
       <td>0</td>
       <td>United States</td>
       <td>4361461</td>
@@ -1441,7 +1327,6 @@ fraud_data.head(10)
       <td>Chrome</td>
       <td>M</td>
       <td>18</td>
-      <td>2.809315e+09</td>
       <td>0</td>
       <td>Canada</td>
       <td>4240931</td>
@@ -1458,7 +1343,6 @@ fraud_data.head(10)
       <td>Chrome</td>
       <td>F</td>
       <td>19</td>
-      <td>3.987484e+09</td>
       <td>0</td>
       <td>None</td>
       <td>2177825</td>
@@ -1475,7 +1359,6 @@ fraud_data.head(10)
       <td>Opera</td>
       <td>M</td>
       <td>34</td>
-      <td>1.692459e+09</td>
       <td>0</td>
       <td>United States</td>
       <td>4268729</td>
@@ -1492,7 +1375,6 @@ fraud_data.head(10)
       <td>IE</td>
       <td>F</td>
       <td>43</td>
-      <td>3.719094e+09</td>
       <td>0</td>
       <td>China</td>
       <td>3594200</td>
@@ -1509,7 +1391,6 @@ fraud_data.head(10)
       <td>IE</td>
       <td>M</td>
       <td>31</td>
-      <td>3.416747e+08</td>
       <td>0</td>
       <td>United States</td>
       <td>4943753</td>
@@ -1544,7 +1425,19 @@ modified_fraud_data.head(10)
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -1820,185 +1713,246 @@ modified_fraud_data.head(10)
 
 
 
-## Logistic Regression
+Next, we will use the z-score normalization for the following columns:
+ * num_unique_users_for_device
+ * time_duration (secs)
+ * age
+ * purchase_value
 
 
 ```python
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
+X = modified_fraud_data[column_list[1:]]
+y = modified_fraud_data['class']
+
+X_train, X_val_test, y_train, y_val_test = train_test_split(X, y, test_size = 0.3)
+
+X_val = X_val_test[0:len(X_val_test) // 2]
+y_val = y_val_test[0:len(X_val_test) // 2]
+
+X_test = X_val_test[len(X_val_test) // 2:]
+y_test = y_val_test[len(X_val_test) // 2:]
+
+normalized_columns = ['num_unique_users_for_device', 'time_duration (secs)', 'age', 'purchase_value']
+scaler = StandardScaler()
+scaler.fit(X_train[normalized_columns])
+
+X_train_normalized = scaler.transform(X_train[normalized_columns])
+X_val_normalized   = scaler.transform(X_val[normalized_columns])
+X_test_normalized  = scaler.transform(X_test[normalized_columns])
+
+X_train_ohe = np.array(X_train[column_list[5:]])
+X_val_ohe   = np.array(X_val[column_list[5:]])
+X_test_ohe  = np.array(X_test[column_list[5:]])
+
+X_train_modified = np.hstack((X_train_normalized, X_train_ohe))
+X_val_modified   = np.hstack((X_val_normalized, X_val_ohe))
+X_test_modified  = np.hstack((X_test_normalized, X_test_ohe))
+
+X_train = pd.DataFrame(X_train_modified, columns = column_list[1:])
+X_val   = pd.DataFrame(X_val_modified, columns = column_list[1:])
+X_test  = pd.DataFrame(X_test_modified, columns = column_list[1:])
+```
+
+## Logistic Regression
+
+The model will chose to identify fraudulant transactions is the logistic regresison model, since we can interpret the model based on the weights. We will apply l1 regularization to mitigate features that do not contribute to the model.
+
+
+```python
 from sklearn.linear_model import LogisticRegression
-from sklearn import preprocessing
 from sklearn.metrics import recall_score, accuracy_score, f1_score, precision_score, roc_auc_score
 
-x_train, x_val_test, y_train, y_val_test = train_test_split(modified_fraud_data[column_list[1:]], 
-                                                            modified_fraud_data['class'],
-                                                            test_size = 0.30)
-x_val = x_val_test[0:len(x_val_test) // 2]
-y_val = y_val_test[0:len(x_val_test) // 2]
-
-x_test = x_val_test[len(x_val_test) // 2:]
-y_test = y_val_test[len(x_val_test) // 2:]
-
-scaler = preprocessing.MinMaxScaler()
-scaler = scaler.fit(x_train)
-
-x_train_minmax = scaler.transform(x_train)
-x_val_minmax   = scaler.transform(x_val) 
-x_test_minmax  = scaler.transform(x_test)
-```
-
-    /anaconda3/lib/python3.7/site-packages/sklearn/preprocessing/data.py:323: DataConversionWarning: Data with input dtype uint8, int64 were all converted to float64 by MinMaxScaler.
-      return self.partial_fit(X, y)
-
-
-
-```python
-model = LogisticRegression(penalty = 'l1', C = 3)
+model = LogisticRegression(penalty = 'l1', solver = 'liblinear', C = 5)
+model.fit(X_train, y_train)
+y_predict = model.predict(X_val)
 ```
 
 
 ```python
-model.fit(x_train_minmax, y_train)
-y_predict = model.predict(x_val_minmax)
-
 print("Validation Results")
 print("-------------")
-print("Accurcay: \t %f"  %(accuracy_score(y_val, y_predict)))
-print("Recall: \t %f"    %(recall_score(y_val, y_predict)))
-print("F1 Score: \t %f"  %(f1_score(y_val, y_predict)))
-print("Precision: \t %f" %(precision_score(y_val, y_predict)))
-print("AUC score: \t %f" %(roc_auc_score(y_val, y_predict)))
+print("Accurcay:    %f" %(accuracy_score(y_val, y_predict)))
+print("Recall:      %f" %(recall_score(y_val, y_predict)))
+print("F1 Score:    %f" %(f1_score(y_val, y_predict)))
+print("Precision:   %f" %(precision_score(y_val, y_predict)))
+print("AUC score:   %f" %(roc_auc_score(y_val, y_predict)))
 ```
-
-    /anaconda3/lib/python3.7/site-packages/sklearn/linear_model/logistic.py:433: FutureWarning: Default solver will be changed to 'lbfgs' in 0.22. Specify a solver to silence this warning.
-      FutureWarning)
-
 
     Validation Results
     -------------
-    Accurcay: 	 0.951383
-    Recall: 	 0.514656
-    F1 Score: 	 0.660296
-    Precision: 	 0.920894
-    AUC score: 	 0.755094
+    Accurcay:    0.950589
+    Recall:      0.520961
+    F1 Score:    0.663866
+    Precision:   0.914806
+    AUC score:   0.757974
 
+
+After doing hyperparameter tuning, we determine that C = 5 gives the best results on our validation set. By looking at the precision score, we conclude that this model is very good at identifying a fraudulant transaction if it suspects that a transaction is fraudulant. However, the recall score indicates that the model can identify half of all fraudulant transactions.
 
 
 ```python
-y_predict = model.predict(x_test_minmax)
+y_predict = model.predict(X_test)
 
 print("Test Results")
 print("-------------")
-print("Accurcay: \t %f"  %(accuracy_score(y_test, y_predict)))
-print("Recall: \t %f"    %(recall_score(y_test, y_predict)))
-print("F1 Score: \t %f"  %(f1_score(y_test, y_predict)))
-print("Precision: \t %f" %(precision_score(y_test, y_predict)))
-print("AUC score: \t %f" %(roc_auc_score(y_test, y_predict)))
+print("Accurcay:   %f"  %(accuracy_score(y_test, y_predict)))
+print("Recall:     %f"  %(recall_score(y_test, y_predict)))
+print("F1 Score:   %f"  %(f1_score(y_test, y_predict)))
+print("Precision:  %f"  %(precision_score(y_test, y_predict)))
+print("AUC score:  %f"  %(roc_auc_score(y_test, y_predict)))
 ```
 
     Test Results
     -------------
-    Accurcay: 	 0.951207
-    Recall: 	 0.527897
-    F1 Score: 	 0.666867
-    Precision: 	 0.905151
-    AUC score: 	 0.761129
+    Accurcay:   0.952707
+    Recall:     0.541368
+    F1 Score:   0.678657
+    Precision:  0.909237
+    AUC score:  0.767938
 
+
+Next, we will look at the weights to determine which features are important for finding fraudulant transactions.
 
 
 ```python
-#Examine the weights in the logistic regression model (First 10)
+#Examine the weights in the logistic regression model (First 4)
 predictors = column_list[1:]
-print("Features \t\t\t\t Absolute Value Weight")
-print("--------------------------------------------------------------")
-for i, weight in enumerate(model.coef_[0, 0:10]):
-    print("{:50s} {:10f}".format(predictors[i], abs(weight)))
-
-#len(column_list[1:])
+feature_ranking = pd.DataFrame(
+    {
+        'Features': [predictors[i] for i in range(len(model.coef_[0, :]))],
+        'Absolute Value Weight': [abs(weight) for weight in model.coef_[0, :]],
+        'Weight': [weight for weight in model.coef_[0, :]]
+    }
+)
+feature_ranking.head(4)
 ```
 
-    Features 				 Absolute Value Weight
-    --------------------------------------------------------------
-    num_unique_users_for_device                         10.326834
-    time_duration (secs)                                 0.608034
-    age                                                  0.122542
-    purchase_value                                       0.073701
-    source_Ads                                           0.727852
-    source_Direct                                        0.500312
-    source_SEO                                           0.775373
-    browser_Chrome                                       0.742193
-    browser_FireFox                                      0.722369
-    browser_IE                                           0.721169
 
 
-## Decision Tree
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Features</th>
+      <th>Absolute Value Weight</th>
+      <th>Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>num_unique_users_for_device</td>
+      <td>1.446914</td>
+      <td>1.446914</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>time_duration (secs)</td>
+      <td>0.153675</td>
+      <td>-0.153675</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>age</td>
+      <td>0.004644</td>
+      <td>-0.004644</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>purchase_value</td>
+      <td>0.004243</td>
+      <td>0.004243</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+If we look at the four features from the above table, the number of unique users is an important feature for determining fraud. To know how important is this feature when looking at fraud, it turns out to be one of the top 5 features
 
 
 ```python
-from sklearn.tree import DecisionTreeClassifier, export_graphviz
-
-x_train, x_val_test, y_train, y_val_test = train_test_split(modified_fraud_data[column_list[1:]], 
-                                                            modified_fraud_data['class'],
-                                                            test_size = 0.30)
-x_val = x_val_test[0:len(x_val_test) // 2]
-y_val = y_val_test[0:len(x_val_test) // 2]
-
-x_test = x_val_test[len(x_val_test) // 2:]
-y_test = y_val_test[len(x_val_test) // 2:]
+feature_ranking.sort_values(by = ['Weight'], ascending = False).head(5)
 ```
 
 
-```python
-model = DecisionTreeClassifier(criterion = 'entropy', max_depth = 10)
-```
 
 
-```python
-_ = model.fit(x_train, y_train)
-export_graphviz(model, out_file = "tree.dot", feature_names = column_list[1:], class_names = ['0', '1'])
-# For the visual representation of the tree, look at tree.png file. The image file was generated by an online
-# converter that uses graphviz.
-```
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
 
-```python
-y_predict = model.predict(x_val)
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Features</th>
+      <th>Absolute Value Weight</th>
+      <th>Weight</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>181</th>
+      <td>country_Turkmenistan</td>
+      <td>3.953373</td>
+      <td>3.953373</td>
+    </tr>
+    <tr>
+      <th>188</th>
+      <td>country_Uzbekistan</td>
+      <td>2.017078</td>
+      <td>2.017078</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>country_Afghanistan</td>
+      <td>1.631331</td>
+      <td>1.631331</td>
+    </tr>
+    <tr>
+      <th>116</th>
+      <td>country_Malawi</td>
+      <td>1.580571</td>
+      <td>1.580571</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>num_unique_users_for_device</td>
+      <td>1.446914</td>
+      <td>1.446914</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
-print("Validation Results")
-print("-------------")
-print("Accurcay: \t %f"  %(accuracy_score(y_val, y_predict)))
-print("Recall: \t %f"    %(recall_score(y_val, y_predict)))
-print("F1 Score: \t %f"  %(f1_score(y_val, y_predict)))
-print("Precision: \t %f" %(precision_score(y_val, y_predict)))
-print("AUC score: \t %f" %(roc_auc_score(y_val, y_predict)))
-```
-
-    Validation Results
-    -------------
-    Accurcay: 	 0.954912
-    Recall: 	 0.543260
-    F1 Score: 	 0.700117
-    Precision: 	 0.984323
-    AUC score: 	 0.771166
-
-
-
-```python
-y_predict = model.predict(x_test)
-
-print("Test Results")
-print("-------------")
-print("Accurcay: \t %f"  %(accuracy_score(y_test, y_predict)))
-print("Recall: \t %f"    %(recall_score(y_test, y_predict)))
-print("F1 Score: \t %f"  %(f1_score(y_test, y_predict)))
-print("Precision: \t %f" %(precision_score(y_test, y_predict)))
-print("AUC score: \t %f" %(roc_auc_score(y_test, y_predict)))
-```
-
-    Test Results
-    -------------
-    Accurcay: 	 0.957074
-    Recall: 	 0.553688
-    F1 Score: 	 0.709118
-    Precision: 	 0.985869
-    AUC score: 	 0.776430
 
