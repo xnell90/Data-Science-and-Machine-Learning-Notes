@@ -1,4 +1,4 @@
-# Extracting The Country From The I.P Adress
+# Extracting The Country From The I.P Address
 
 Before we can do any data analysis and model creation, let us add a new column called 'country' in the fraud data table that indicates from which country did the user purchase the item. We can do this by using the ip_address table, i.e if an I.P address falls within a certain range, then we can find the country of origin.
 
