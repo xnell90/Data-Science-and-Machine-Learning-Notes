@@ -1,4 +1,4 @@
-# Classifying Digits Using mlspear
+# Classifying Digits From Scratch
 
 <div style='text-align: justify'>This notebook is a simple tutorial on how to use mlspear for classifying digits in the MNIST dataset. To evaluate how well it identifies digits, we will create a fully connected neural network from tensorflow 2.x with Keras, and use it as a baseline model for comparison.</div>
 
