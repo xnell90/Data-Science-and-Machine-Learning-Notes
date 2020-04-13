@@ -120,8 +120,6 @@ confusion_plot(y_test, y_predict)
 
 
 ```python
-import matplotlib.pyplot as plt
-
 fig = plt.figure(figsize = (20, 6))
 
 plt.subplot(1, 2, 1)
