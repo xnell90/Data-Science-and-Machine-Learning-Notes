@@ -11,9 +11,9 @@ indims  = 28
 neurons = 150
 outdims = 10
 
-input_layer  = tf.keras.layers.Input(shape = (steps, indims))
-_, states    = tf.keras.layers.SimpleRNN(neurons, return_state = True)(input_layer)
-output_layer = tf.keras.layers.Dense(outdims, activation = 'softmax')(states)
+input_layer   = tf.keras.layers.Input(shape = (steps, indims))
+logits_layer  = tf.keras.layers.SimpleRNN(neurons)(input_layer)
+output_layer  = tf.keras.layers.Dense(outdims, activation = 'softmax')(logits_layer)
 
 rnn_model = tf.keras.Model(inputs = input_layer, outputs = output_layer)
 rnn_model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics = ['accuracy'])
@@ -68,7 +68,7 @@ _, rnn_model_accuracy = rnn_model.evaluate(X_test, y_test, verbose = 0)
 print("accuracy: ", rnn_model_accuracy)
 ```
 
-    accuracy:  0.9629
+    accuracy:  0.9627
 
 
 ## Plotting the Results
