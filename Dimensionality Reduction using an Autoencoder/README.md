@@ -93,7 +93,7 @@ train_log = autoencoder.fit(images, images, epochs = 10)
     70000/70000 [==============================] - 27s 384us/sample - loss: 0.0381
 
 
-## Extract Encoder to Map Digits into 3D space
+## Extract Encoder to Map Digits into 2D space
 
 
 ```python
