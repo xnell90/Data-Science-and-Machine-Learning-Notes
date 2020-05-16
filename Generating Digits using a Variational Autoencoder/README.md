@@ -8,6 +8,9 @@
 ```python
 import tensorflow as tf
 import tensorflow.keras.backend as K
+
+from tensorflow.keras.layers import Dense, Input
+from tensorflow.keras.models import Model
 ```
 
 ### Define Paramaters And A Sampling Layer
@@ -36,29 +39,29 @@ class Sampling(tf.keras.layers.Layer):
 
 
 ```python
-input_layer = tf.keras.layers.Input(shape = (28 * 28, ))
+input_layer = Input(shape = (28 * 28, ))
 
-hidden_1 = tf.keras.layers.Dense(num_units_hidden_1, **params)(input_layer)
-hidden_2 = tf.keras.layers.Dense(num_units_hidden_2, **params)(hidden_1)
+hidden_1 = Dense(num_units_hidden_1, **params)(input_layer)
+hidden_2 = Dense(num_units_hidden_2, **params)(hidden_1)
 
-mean  = tf.keras.layers.Dense(num_units_hidden_3, activation = None)(hidden_2)
-gamma = tf.keras.layers.Dense(num_units_hidden_3, activation = None)(hidden_2)
+mean  = Dense(num_units_hidden_3, activation = None)(hidden_2)
+gamma = Dense(num_units_hidden_3, activation = None)(hidden_2)
 codings = Sampling()([mean, gamma])
 
-encoder = tf.keras.models.Model(inputs = [input_layer], outputs = [mean, gamma, codings])
+encoder = Model(inputs = [input_layer], outputs = [mean, gamma, codings])
 ```
 
 ### Define Decoder Model
 
 
 ```python
-decoder_input_layer = tf.keras.layers.Input(shape = (20, ))
+decoder_input_layer = Input(shape = (20, ))
 
-hidden_3 = tf.keras.layers.Dense(num_units_hidden_4, **params)(decoder_input_layer)
-hidden_4 = tf.keras.layers.Dense(num_units_hidden_5, **params)(hidden_3)
-output_layer = tf.keras.layers.Dense(28 * 28, activation = 'sigmoid')(hidden_4)
+hidden_3 = Dense(num_units_hidden_4, **params)(decoder_input_layer)
+hidden_4 = Dense(num_units_hidden_5, **params)(hidden_3)
+output_layer = Dense(28 * 28, activation = 'sigmoid')(hidden_4)
 
-decoder = tf.keras.models.Model(inputs = [decoder_input_layer], outputs = [output_layer])
+decoder = Model(inputs = [decoder_input_layer], outputs = [output_layer])
 ```
 
 ### Define Variational Autoencoder From Encoders And Decoders
@@ -67,7 +70,7 @@ decoder = tf.keras.models.Model(inputs = [decoder_input_layer], outputs = [outpu
 ```python
 _, _, encodings = encoder(input_layer)
 reconstructions = decoder(encodings)
-vae_model = tf.keras.models.Model(inputs = [input_layer], outputs = [reconstructions])
+vae_model = Model(inputs = [input_layer], outputs = [reconstructions])
 ```
 
 ### Define The Loss Function, And Compile The Model With An Adam Optimizer
@@ -111,11 +114,12 @@ for row in range(0, 6):
         axes[row, col].axis('off')
         axes[row, col].imshow(current_image)
         
-plt.show()
-
 train_images = train_images.reshape((-1, 28 * 28))
 test_images  = test_images.reshape((-1, 28 * 28))
 images = np.vstack((train_images, test_images))
+
+plt.show()
+
 ```
 
 
@@ -127,40 +131,43 @@ images = np.vstack((train_images, test_images))
 
 ```python
 fit_params = {
-    'epochs': 10,
-    'batch_size': 32
+    'epochs': 15,
+    'batch_size': 64
 }
-vae_model.fit(images, images, **fit_params)
+history = vae_model.fit(images, images, **fit_params)
 ```
 
     Train on 70000 samples
-    Epoch 1/10
-    70000/70000 [==============================] - 42s 604us/sample - loss: 0.1597
-    Epoch 2/10
-    70000/70000 [==============================] - 45s 641us/sample - loss: 0.1432
-    Epoch 3/10
-    70000/70000 [==============================] - 44s 629us/sample - loss: 0.1400
-    Epoch 4/10
-    70000/70000 [==============================] - 44s 624us/sample - loss: 0.1382
-    Epoch 5/10
-    70000/70000 [==============================] - 45s 641us/sample - loss: 0.1369
-    Epoch 6/10
-    70000/70000 [==============================] - 44s 627us/sample - loss: 0.1360
-    Epoch 7/10
-    70000/70000 [==============================] - 40s 570us/sample - loss: 0.1351
-    Epoch 8/10
-    70000/70000 [==============================] - 41s 591us/sample - loss: 0.1344
-    Epoch 9/10
-    70000/70000 [==============================] - 44s 629us/sample - loss: 0.1339
-    Epoch 10/10
-    70000/70000 [==============================] - 42s 606us/sample - loss: 0.1333
-
-
-
-
-
-    <tensorflow.python.keras.callbacks.History at 0x6549bb090>
-
+    Epoch 1/15
+    70000/70000 [==============================] - 25s 358us/sample - loss: 0.1639
+    Epoch 2/15
+    70000/70000 [==============================] - 24s 338us/sample - loss: 0.1425
+    Epoch 3/15
+    70000/70000 [==============================] - 23s 335us/sample - loss: 0.1388
+    Epoch 4/15
+    70000/70000 [==============================] - 23s 334us/sample - loss: 0.1370
+    Epoch 5/15
+    70000/70000 [==============================] - 24s 340us/sample - loss: 0.1356
+    Epoch 6/15
+    70000/70000 [==============================] - 23s 329us/sample - loss: 0.1346
+    Epoch 7/15
+    70000/70000 [==============================] - 23s 331us/sample - loss: 0.1336
+    Epoch 8/15
+    70000/70000 [==============================] - 26s 369us/sample - loss: 0.1330
+    Epoch 9/15
+    70000/70000 [==============================] - 26s 368us/sample - loss: 0.1324
+    Epoch 10/15
+    70000/70000 [==============================] - 30s 426us/sample - loss: 0.1319
+    Epoch 11/15
+    70000/70000 [==============================] - 38s 542us/sample - loss: 0.1314
+    Epoch 12/15
+    70000/70000 [==============================] - 24s 343us/sample - loss: 0.1309
+    Epoch 13/15
+    70000/70000 [==============================] - 26s 371us/sample - loss: 0.1306
+    Epoch 14/15
+    70000/70000 [==============================] - 26s 370us/sample - loss: 0.1303
+    Epoch 15/15
+    70000/70000 [==============================] - 25s 359us/sample - loss: 0.1299
 
 
 ## Results
