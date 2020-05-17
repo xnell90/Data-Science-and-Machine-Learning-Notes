@@ -1,3 +1,0 @@
-# Generating Faces Using A Convolutional VAE
-
-Coming soon ...
