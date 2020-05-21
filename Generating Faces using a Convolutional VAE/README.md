@@ -132,7 +132,7 @@ model.summary()
 
 
 ```python
-latent_loss = -0.5 * K.sum(1 + gamma - K.exp(gamma) - K.square(mean), axis = -1)
+latent_loss = -0.0005 * K.sum(1 + gamma - K.exp(gamma) - K.square(mean), axis = -1)
 model.add_loss(latent_loss)
 
 optimizer = Adam(learning_rate = 0.001)
@@ -145,10 +145,10 @@ model.compile(optimizer = optimizer, loss = 'mse')
 
 
 ```python
-generator = ImageDataGenerator(rescale = 1. / 255, horizontal_flip = True)
+generator = ImageDataGenerator(rescale = 1. / 255)
 
 params = {
-    'batch_size': 32, 
+    'batch_size': 2, 
     'directory': './images/', #images folder has a sub folder that contains actual images
     'shuffle': True, 
     'target_size': (128, 128),
@@ -158,7 +158,7 @@ params = {
 image_data_generator = generator.flow_from_directory(**params)
 ```
 
-    Found 5216 images belonging to 1 classes.
+    Found 5186 images belonging to 1 classes.
 
 
 ### Display Images
@@ -166,7 +166,7 @@ image_data_generator = generator.flow_from_directory(**params)
 
 ```python
 def plot_images(images_arr):
-    fig, axes = plt.subplots(1, 5, figsize = (20, 20))
+    fig, axes = plt.subplots(5, 5, figsize = (20, 20))
     axes = axes.flatten()
     
     for img, ax in zip(images_arr, axes):
@@ -176,7 +176,7 @@ def plot_images(images_arr):
     plt.tight_layout()
     plt.show()
 
-plot_images([image_data_generator[i][0][0] for i in range(5)])
+plot_images([image_data_generator[i][0][0] for i in range(25)])
 ```
 
 
@@ -189,7 +189,7 @@ plot_images([image_data_generator[i][0][0] for i in range(5)])
 ```python
 fit_params = {
     'epochs': 10,
-    'steps_per_epoch': 5216 // 32,
+    'steps_per_epoch': 5186 // 2,
     'verbose': 1
 }
 
@@ -201,27 +201,27 @@ history = model.fit(image_data_generator, **fit_params)
       ...
         to  
       ['...']
-    Train for 163 steps
+    Train for 2593 steps
     Epoch 1/10
-    163/163 [==============================] - 139s 852ms/step - loss: 42.2211
+    2593/2593 [==============================] - 254s 98ms/step - loss: 0.0637
     Epoch 2/10
-    163/163 [==============================] - 135s 828ms/step - loss: 11.2956
+    2593/2593 [==============================] - 255s 98ms/step - loss: 0.0436
     Epoch 3/10
-    163/163 [==============================] - 137s 841ms/step - loss: 5.8672
+    2593/2593 [==============================] - 284s 109ms/step - loss: 0.0354
     Epoch 4/10
-    163/163 [==============================] - 136s 832ms/step - loss: 3.4593
+    2593/2593 [==============================] - 256s 99ms/step - loss: 0.0321
     Epoch 5/10
-    163/163 [==============================] - 141s 867ms/step - loss: 2.2355
+    2593/2593 [==============================] - 286s 110ms/step - loss: 0.0305
     Epoch 6/10
-    163/163 [==============================] - 141s 864ms/step - loss: 1.5436
+    2593/2593 [==============================] - 358s 138ms/step - loss: 0.0294
     Epoch 7/10
-    163/163 [==============================] - 139s 851ms/step - loss: 1.1278
+    2593/2593 [==============================] - 257s 99ms/step - loss: 0.0285
     Epoch 8/10
-    163/163 [==============================] - 133s 818ms/step - loss: 0.8792
+    2593/2593 [==============================] - 358s 138ms/step - loss: 0.0277
     Epoch 9/10
-    163/163 [==============================] - 134s 825ms/step - loss: 0.7001
+    2593/2593 [==============================] - 322s 124ms/step - loss: 0.0271
     Epoch 10/10
-    163/163 [==============================] - 138s 844ms/step - loss: 0.5706
+    2593/2593 [==============================] - 257s 99ms/step - loss: 0.0267
 
 
 ## Results
@@ -240,8 +240,16 @@ for row in range(0, 5):
         axes[row, col].imshow(current_image)
         i += 1
 
+plt.tight_layout()
+plt.show()
+
 ```
 
 
 ![png](output_22_0.png)
 
+
+
+```python
+
+```
