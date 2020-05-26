@@ -1,4 +1,4 @@
-# Generating Digits using an AutoEncoder
+# Generating Digits using a Variational AutoEncoder
 
 ## Creating A Variational AutoEncoder
 
@@ -119,7 +119,6 @@ test_images  = test_images.reshape((-1, 28 * 28))
 images = np.vstack((train_images, test_images))
 
 plt.show()
-
 ```
 
 
@@ -139,35 +138,35 @@ history = vae_model.fit(images, images, **fit_params)
 
     Train on 70000 samples
     Epoch 1/15
-    70000/70000 [==============================] - 25s 358us/sample - loss: 0.1639
+    70000/70000 [==============================] - 29s 418us/sample - loss: 0.1637
     Epoch 2/15
-    70000/70000 [==============================] - 24s 338us/sample - loss: 0.1425
+    70000/70000 [==============================] - 33s 476us/sample - loss: 0.1423
     Epoch 3/15
-    70000/70000 [==============================] - 23s 335us/sample - loss: 0.1388
+    70000/70000 [==============================] - 28s 399us/sample - loss: 0.1389
     Epoch 4/15
-    70000/70000 [==============================] - 23s 334us/sample - loss: 0.1370
+    70000/70000 [==============================] - 26s 365us/sample - loss: 0.1369
     Epoch 5/15
-    70000/70000 [==============================] - 24s 340us/sample - loss: 0.1356
+    70000/70000 [==============================] - 25s 353us/sample - loss: 0.1356
     Epoch 6/15
-    70000/70000 [==============================] - 23s 329us/sample - loss: 0.1346
+    70000/70000 [==============================] - 25s 353us/sample - loss: 0.1344
     Epoch 7/15
-    70000/70000 [==============================] - 23s 331us/sample - loss: 0.1336
+    70000/70000 [==============================] - 30s 423us/sample - loss: 0.1336
     Epoch 8/15
-    70000/70000 [==============================] - 26s 369us/sample - loss: 0.1330
+    70000/70000 [==============================] - 33s 469us/sample - loss: 0.1328
     Epoch 9/15
-    70000/70000 [==============================] - 26s 368us/sample - loss: 0.1324
+    70000/70000 [==============================] - 26s 375us/sample - loss: 0.1323
     Epoch 10/15
-    70000/70000 [==============================] - 30s 426us/sample - loss: 0.1319
+    70000/70000 [==============================] - 32s 457us/sample - loss: 0.1316
     Epoch 11/15
-    70000/70000 [==============================] - 38s 542us/sample - loss: 0.1314
+    70000/70000 [==============================] - 25s 353us/sample - loss: 0.1312
     Epoch 12/15
-    70000/70000 [==============================] - 24s 343us/sample - loss: 0.1309
+    70000/70000 [==============================] - 25s 351us/sample - loss: 0.1308
     Epoch 13/15
-    70000/70000 [==============================] - 26s 371us/sample - loss: 0.1306
+    70000/70000 [==============================] - 26s 377us/sample - loss: 0.1304
     Epoch 14/15
-    70000/70000 [==============================] - 26s 370us/sample - loss: 0.1303
+    70000/70000 [==============================] - 33s 469us/sample - loss: 0.1301
     Epoch 15/15
-    70000/70000 [==============================] - 25s 359us/sample - loss: 0.1299
+    70000/70000 [==============================] - 25s 353us/sample - loss: 0.1299
 
 
 ## Results
@@ -177,14 +176,16 @@ history = vae_model.fit(images, images, **fit_params)
 input_codings = np.random.normal(size = [60, num_units_hidden_3])
 generated_images = decoder.predict(input_codings)
 
-fig, axes = plt.subplots(10, 6, figsize = (20, 20))
+fig, axes = plt.subplots(6, 6, figsize = (20, 20))
 i = 0
-for row in range(0, 10):
+for row in range(0, 6):
     for col in range(0, 6):
         current_image = np.array(generated_images[i]).reshape(28, 28)
         axes[row, col].axis('off')
         axes[row, col].imshow(current_image)
         i += 1
+
+plt.show()
 ```
 
 
