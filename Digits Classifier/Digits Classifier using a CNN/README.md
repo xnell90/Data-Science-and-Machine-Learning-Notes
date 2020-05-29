@@ -5,6 +5,9 @@
 
 ```python
 import tensorflow as tf
+
+from tensorflow.keras import Sequential
+from tensorflow.keras.layers import Conv2D, Dense, Flatten, MaxPool2D
 ```
 
 ## MNIST Dataset
@@ -54,13 +57,13 @@ plt.show()
 
 
 ```python
-tf_model = tf.keras.Sequential()
-tf_model.add(tf.keras.layers.Conv2D(10, activation = 'relu', kernel_size = 3, input_shape = (28, 28, 1)))
-tf_model.add(tf.keras.layers.MaxPool2D(2))
-tf_model.add(tf.keras.layers.Conv2D(5, activation = 'relu', kernel_size = 3))
-tf_model.add(tf.keras.layers.MaxPool2D(2))
-tf_model.add(tf.keras.layers.Flatten())
-tf_model.add(tf.keras.layers.Dense(10, activation = 'softmax'))
+tf_model = Sequential()
+tf_model.add(Conv2D(10, activation = 'relu', kernel_size = 3, input_shape = (28, 28, 1)))
+tf_model.add(MaxPool2D(2))
+tf_model.add(Conv2D(5, activation = 'relu', kernel_size = 3))
+tf_model.add(MaxPool2D(2))
+tf_model.add(Flatten())
+tf_model.add(Dense(10, activation = 'softmax'))
 
 tf_model.compile(optimizer = 'adam', loss = 'categorical_crossentropy', metrics = ['accuracy'])
 ```
@@ -77,7 +80,7 @@ _, tf_model_accuracy = tf_model.evaluate(X_test, y_test, verbose = 0)
 print("accuracy: ", tf_model_accuracy)
 ```
 
-    accuracy:  0.9772
+    accuracy:  0.9759
 
 
 ## Defining a Plotting Function for a Confusion Matrix
