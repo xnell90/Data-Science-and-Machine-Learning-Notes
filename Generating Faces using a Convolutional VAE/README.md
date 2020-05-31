@@ -1,6 +1,6 @@
-# Generating Faces using a Convolutional VAE
+# Generating Faces using a Convolutional Variational Autoencoder
 
-## Creating A Convolutional VAE
+## Creating A Convolutional Variational Autoencoder
 
 ### Import Necessary Libraries
 
@@ -102,7 +102,7 @@ decoder = Model(decoder_input, decoder_output, name = 'decoder')
 
 ```
 
-### Define Convolutional VAE
+### Define Convolutional Variational Autoencoder
 
 
 ```python
