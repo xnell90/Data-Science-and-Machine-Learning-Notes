@@ -39,16 +39,16 @@ class Sampling(tf.keras.layers.Layer):
 
 
 ```python
-input_layer = Input(shape = (28 * 28, ))
+encoder_input_layer = Input(shape = (28 * 28, ))
 
-hidden_1 = Dense(num_units_hidden_1, **params)(input_layer)
+hidden_1 = Dense(num_units_hidden_1, **params)(encoder_input_layer)
 hidden_2 = Dense(num_units_hidden_2, **params)(hidden_1)
 
 mean  = Dense(num_units_hidden_3, activation = None)(hidden_2)
 gamma = Dense(num_units_hidden_3, activation = None)(hidden_2)
 codings = Sampling()([mean, gamma])
 
-encoder = Model(inputs = [input_layer], outputs = [mean, gamma, codings])
+encoder = Model(inputs = [encoder_input_layer], outputs = [mean, gamma, codings])
 ```
 
 ### Define Decoder Model
@@ -68,9 +68,9 @@ decoder = Model(inputs = [decoder_input_layer], outputs = [output_layer])
 
 
 ```python
-_, _, encodings = encoder(input_layer)
+_, _, encodings = encoder(encoder_input_layer)
 reconstructions = decoder(encodings)
-vae_model = Model(inputs = [input_layer], outputs = [reconstructions])
+vae_model = Model(inputs = [encoder_input_layer], outputs = [reconstructions])
 ```
 
 ### Define The Loss Function, And Compile The Model With An Adam Optimizer
@@ -96,7 +96,7 @@ mnist_dataset = tf.keras.datasets.mnist
 (train_images, train_labels), (test_images, test_labels) = mnist_dataset.load_data()
 train_images, test_images = train_images / 255, test_images / 255
 
-fig, axes = plt.subplots(6, 6, figsize = (15, 15))
+fig, axes = plt.subplots(6, 6, figsize = (20, 20))
 
 samples = np.array([
     [0,  1,  2,  3,   4,  5],
@@ -138,35 +138,35 @@ history = vae_model.fit(images, images, **fit_params)
 
     Train on 70000 samples
     Epoch 1/15
-    70000/70000 [==============================] - 29s 418us/sample - loss: 0.1637
+    70000/70000 [==============================] - 26s 371us/sample - loss: 0.1637
     Epoch 2/15
-    70000/70000 [==============================] - 33s 476us/sample - loss: 0.1423
+    70000/70000 [==============================] - 24s 350us/sample - loss: 0.1424
     Epoch 3/15
-    70000/70000 [==============================] - 28s 399us/sample - loss: 0.1389
+    70000/70000 [==============================] - 24s 346us/sample - loss: 0.1390
     Epoch 4/15
-    70000/70000 [==============================] - 26s 365us/sample - loss: 0.1369
+    70000/70000 [==============================] - 25s 353us/sample - loss: 0.1370
     Epoch 5/15
-    70000/70000 [==============================] - 25s 353us/sample - loss: 0.1356
+    70000/70000 [==============================] - 26s 377us/sample - loss: 0.1358
     Epoch 6/15
-    70000/70000 [==============================] - 25s 353us/sample - loss: 0.1344
+    70000/70000 [==============================] - 25s 355us/sample - loss: 0.1347
     Epoch 7/15
-    70000/70000 [==============================] - 30s 423us/sample - loss: 0.1336
+    70000/70000 [==============================] - 25s 351us/sample - loss: 0.1338
     Epoch 8/15
-    70000/70000 [==============================] - 33s 469us/sample - loss: 0.1328
+    70000/70000 [==============================] - 24s 349us/sample - loss: 0.1331
     Epoch 9/15
-    70000/70000 [==============================] - 26s 375us/sample - loss: 0.1323
+    70000/70000 [==============================] - 24s 345us/sample - loss: 0.1326
     Epoch 10/15
-    70000/70000 [==============================] - 32s 457us/sample - loss: 0.1316
+    70000/70000 [==============================] - 28s 405us/sample - loss: 0.1321
     Epoch 11/15
-    70000/70000 [==============================] - 25s 353us/sample - loss: 0.1312
+    70000/70000 [==============================] - 26s 369us/sample - loss: 0.1316
     Epoch 12/15
-    70000/70000 [==============================] - 25s 351us/sample - loss: 0.1308
+    70000/70000 [==============================] - 26s 371us/sample - loss: 0.1311
     Epoch 13/15
-    70000/70000 [==============================] - 26s 377us/sample - loss: 0.1304
+    70000/70000 [==============================] - 26s 372us/sample - loss: 0.1308
     Epoch 14/15
-    70000/70000 [==============================] - 33s 469us/sample - loss: 0.1301
+    70000/70000 [==============================] - 26s 371us/sample - loss: 0.1304
     Epoch 15/15
-    70000/70000 [==============================] - 25s 353us/sample - loss: 0.1299
+    70000/70000 [==============================] - 24s 345us/sample - loss: 0.1302
 
 
 ## Results
