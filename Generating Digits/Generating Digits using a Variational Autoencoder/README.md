@@ -96,7 +96,7 @@ mnist_dataset = tf.keras.datasets.mnist
 (train_images, train_labels), (test_images, test_labels) = mnist_dataset.load_data()
 train_images, test_images = train_images / 255, test_images / 255
 
-fig, axes = plt.subplots(6, 6, figsize = (20, 20))
+fig, axes = plt.subplots(6, 6, figsize = (15, 15))
 
 samples = np.array([
     [0,  1,  2,  3,   4,  5],
@@ -138,35 +138,35 @@ history = vae_model.fit(images, images, **fit_params)
 
     Train on 70000 samples
     Epoch 1/15
-    70000/70000 [==============================] - 26s 371us/sample - loss: 0.1637
+    70000/70000 [==============================] - 26s 369us/sample - loss: 0.1639
     Epoch 2/15
-    70000/70000 [==============================] - 24s 350us/sample - loss: 0.1424
+    70000/70000 [==============================] - 25s 353us/sample - loss: 0.1425
     Epoch 3/15
-    70000/70000 [==============================] - 24s 346us/sample - loss: 0.1390
+    70000/70000 [==============================] - 44s 629us/sample - loss: 0.1389
     Epoch 4/15
-    70000/70000 [==============================] - 25s 353us/sample - loss: 0.1370
+    70000/70000 [==============================] - 38s 542us/sample - loss: 0.1369
     Epoch 5/15
-    70000/70000 [==============================] - 26s 377us/sample - loss: 0.1358
+    70000/70000 [==============================] - 34s 485us/sample - loss: 0.1354
     Epoch 6/15
-    70000/70000 [==============================] - 25s 355us/sample - loss: 0.1347
+    70000/70000 [==============================] - 32s 455us/sample - loss: 0.1342
     Epoch 7/15
-    70000/70000 [==============================] - 25s 351us/sample - loss: 0.1338
+    70000/70000 [==============================] - 36s 511us/sample - loss: 0.1334
     Epoch 8/15
-    70000/70000 [==============================] - 24s 349us/sample - loss: 0.1331
+    70000/70000 [==============================] - 31s 445us/sample - loss: 0.1327
     Epoch 9/15
-    70000/70000 [==============================] - 24s 345us/sample - loss: 0.1326
+    70000/70000 [==============================] - 26s 369us/sample - loss: 0.1322
     Epoch 10/15
-    70000/70000 [==============================] - 28s 405us/sample - loss: 0.1321
+    70000/70000 [==============================] - 25s 362us/sample - loss: 0.1316
     Epoch 11/15
-    70000/70000 [==============================] - 26s 369us/sample - loss: 0.1316
+    70000/70000 [==============================] - 30s 422us/sample - loss: 0.1312
     Epoch 12/15
-    70000/70000 [==============================] - 26s 371us/sample - loss: 0.1311
+    70000/70000 [==============================] - 26s 371us/sample - loss: 0.1307
     Epoch 13/15
-    70000/70000 [==============================] - 26s 372us/sample - loss: 0.1308
+    70000/70000 [==============================] - 29s 414us/sample - loss: 0.1304
     Epoch 14/15
-    70000/70000 [==============================] - 26s 371us/sample - loss: 0.1304
+    70000/70000 [==============================] - 27s 385us/sample - loss: 0.1300
     Epoch 15/15
-    70000/70000 [==============================] - 24s 345us/sample - loss: 0.1302
+    70000/70000 [==============================] - 28s 399us/sample - loss: 0.1297
 
 
 ## Results
@@ -176,7 +176,7 @@ history = vae_model.fit(images, images, **fit_params)
 input_codings = np.random.normal(size = [60, num_units_hidden_3])
 generated_images = decoder.predict(input_codings)
 
-fig, axes = plt.subplots(6, 6, figsize = (20, 20))
+fig, axes = plt.subplots(6, 6, figsize = (15, 15))
 i = 0
 for row in range(0, 6):
     for col in range(0, 6):
