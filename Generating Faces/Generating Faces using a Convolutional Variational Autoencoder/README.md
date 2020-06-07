@@ -50,8 +50,8 @@ x = encoder_input
 for i in range(4):
     encoder_params = {
         'filters': encoder_conv_filters[i],
-        'kernel_size': encoder_conv_kernel_size[i],
-        'strides': encoder_conv_strides[i],
+        'kernel_size': 3,
+        'strides': 2,
         'padding': 'same',
         'name': 'encoder_conv_' + str(i)
     }
@@ -81,8 +81,8 @@ x = Reshape(shape_before_flattening)(x)
 for i in range(4):
     decoder_params = {
         'filters': decoder_conv_t_filters[i],
-        'kernel_size': decoder_conv_t_kernel_size[i],
-        'strides': decoder_conv_t_strides[i],
+        'kernel_size': 3,
+        'strides': 2,
         'padding': 'same',
         'name': 'decoder_conv_' + str(i)
     }
