@@ -8,7 +8,6 @@
 ```python
 import matplotlib.pyplot as plt
 import numpy as np
-import os
 import tensorflow as tf
 import tensorflow.keras.backend as K
 
