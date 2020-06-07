@@ -37,7 +37,7 @@ generator.add(Dense(784, activation = 'sigmoid'))
 generator.add(Reshape((28, 28)))
 ```
 
-### Define the Generative Adversarial Network Using The Discriminator and The Generator
+### Define The Generative Adversarial Network Using The Discriminator and The Generator
 
 
 ```python
