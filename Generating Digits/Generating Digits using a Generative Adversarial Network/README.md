@@ -59,7 +59,7 @@ discriminator.trainable = False
 gan.compile(optimizer = 'rmsprop', loss = 'binary_crossentropy')
 ```
 
-## Fashion MNIST Dataset
+## MNIST Dataset
 
 
 ```python
