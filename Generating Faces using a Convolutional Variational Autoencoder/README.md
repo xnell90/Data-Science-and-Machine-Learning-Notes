@@ -56,8 +56,7 @@ for i in range(4):
         'padding': 'same',
         'name': 'encoder_conv_' + str(i)
     }
-    conv_layer = Conv2D(**encoder_params)
-    x = conv_layer(x)
+    x = Conv2D(**encoder_params)(x)
     x = BatchNormalization()(x)
     x = LeakyReLU()(x)
     x = Dropout(rate = 0.25)(x)
@@ -88,8 +87,7 @@ for i in range(4):
         'padding': 'same',
         'name': 'decoder_conv_' + str(i)
     }
-    conv_t_layer = Conv2DTranspose(**decoder_params)
-    x = conv_t_layer(x)
+    x = Conv2DTranspose(**decoder_params)(x)
     if i < 3: 
         x = BatchNormalization()(x)
         x = LeakyReLU()(x)
@@ -109,24 +107,7 @@ decoder = Model(decoder_input, decoder_output, name = 'decoder')
 model_input  = encoder(encoder_input)
 model_output = decoder(model_input)
 model        = Model(encoder_input, model_output)
-model.summary()
 ```
-
-    Model: "model"
-    _________________________________________________________________
-    Layer (type)                 Output Shape              Param #   
-    =================================================================
-    encoder_input (InputLayer)   [(None, 128, 128, 3)]     0         
-    _________________________________________________________________
-    encoder (Model)              (None, 200)               1732944   
-    _________________________________________________________________
-    decoder (Model)              (None, 128, 128, 3)       889315    
-    =================================================================
-    Total params: 2,622,259
-    Trainable params: 2,621,555
-    Non-trainable params: 704
-    _________________________________________________________________
-
 
 ### Define Loss Function, And Compile The Model With An Adam Optimizer
 
@@ -147,9 +128,10 @@ model.compile(optimizer = optimizer, loss = 'mse')
 ```python
 generator = ImageDataGenerator(rescale = 1. / 255)
 
+#images folder has a sub folder that contains actual images
 params = {
     'batch_size': 2, 
-    'directory': './images/', #images folder has a sub folder that contains actual images
+    'directory': './images/', 
     'shuffle': True, 
     'target_size': (128, 128),
     'class_mode': 'input'
@@ -193,7 +175,6 @@ fit_params = {
     'verbose': 1
 }
 
-#image_data_generator
 history = model.fit(image_data_generator, **fit_params)
 ```
 
@@ -203,25 +184,25 @@ history = model.fit(image_data_generator, **fit_params)
       ['...']
     Train for 2593 steps
     Epoch 1/10
-    2593/2593 [==============================] - 254s 98ms/step - loss: 0.0637
+    2593/2593 [==============================] - 331s 128ms/step - loss: 0.0643
     Epoch 2/10
-    2593/2593 [==============================] - 255s 98ms/step - loss: 0.0436
+    2593/2593 [==============================] - 325s 125ms/step - loss: 0.0380
     Epoch 3/10
-    2593/2593 [==============================] - 284s 109ms/step - loss: 0.0354
+    2593/2593 [==============================] - 349s 135ms/step - loss: 0.0339
     Epoch 4/10
-    2593/2593 [==============================] - 256s 99ms/step - loss: 0.0321
+    2593/2593 [==============================] - 337s 130ms/step - loss: 0.0321
     Epoch 5/10
-    2593/2593 [==============================] - 286s 110ms/step - loss: 0.0305
+    2593/2593 [==============================] - 358s 138ms/step - loss: 0.0313
     Epoch 6/10
-    2593/2593 [==============================] - 358s 138ms/step - loss: 0.0294
+    2593/2593 [==============================] - 400s 154ms/step - loss: 0.0304
     Epoch 7/10
-    2593/2593 [==============================] - 257s 99ms/step - loss: 0.0285
+    2593/2593 [==============================] - 330s 127ms/step - loss: 0.0298
     Epoch 8/10
-    2593/2593 [==============================] - 358s 138ms/step - loss: 0.0277
+    2593/2593 [==============================] - 308s 119ms/step - loss: 0.0289
     Epoch 9/10
-    2593/2593 [==============================] - 322s 124ms/step - loss: 0.0271
+    2593/2593 [==============================] - 324s 125ms/step - loss: 0.0282
     Epoch 10/10
-    2593/2593 [==============================] - 257s 99ms/step - loss: 0.0267
+    2593/2593 [==============================] - 294s 114ms/step - loss: 0.0276
 
 
 ## Results
@@ -248,8 +229,3 @@ plt.show()
 
 ![png](output_22_0.png)
 
-
-
-```python
-
-```
