@@ -22,10 +22,10 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 
 ```python
-input_dim = (128, 128, 3)
+input_dim = (32, 32, 3)
 
 encoder_conv_filters   = [32, 64, 64, 64]
-decoder_conv_t_filters = [64, 32, 32, 3]
+decoder_conv_t_filters = [64, 64, 32, 3]
 
 z_dim = 200
 
@@ -62,7 +62,7 @@ mean  = Dense(z_dim, name = 'mean')(x)
 gamma = Dense(z_dim, name = 'gamma')(x)
 encoder_output = Sampling()([mean, gamma])
 
-encoder = Model(encoder_input, encoder_output, name = 'encoder')    
+encoder = Model(encoder_input, encoder_output, name = 'encoder')
 ```
 
 ### Define Decoder Model
@@ -91,7 +91,6 @@ for i in range(4):
     
 decoder_output = x
 decoder = Model(decoder_input, decoder_output, name = 'decoder')
-
 ```
 
 ### Define Convolutional Variational Autoencoder
@@ -127,7 +126,7 @@ params = {
     'batch_size': 2, 
     'directory': './images/', 
     'shuffle': True, 
-    'target_size': (128, 128),
+    'target_size': (32, 32),
     'class_mode': 'input'
 }
 
@@ -178,25 +177,25 @@ history = model.fit(image_data_generator, **fit_params)
       ['...']
     Train for 2593 steps
     Epoch 1/10
-    2593/2593 [==============================] - 331s 128ms/step - loss: 0.0643
+    2593/2593 [==============================] - 58s 22ms/step - loss: 0.0553
     Epoch 2/10
-    2593/2593 [==============================] - 325s 125ms/step - loss: 0.0380
+    2593/2593 [==============================] - 57s 22ms/step - loss: 0.0408
     Epoch 3/10
-    2593/2593 [==============================] - 349s 135ms/step - loss: 0.0339
+    2593/2593 [==============================] - 48s 18ms/step - loss: 0.0381
     Epoch 4/10
-    2593/2593 [==============================] - 337s 130ms/step - loss: 0.0321
+    2593/2593 [==============================] - 44s 17ms/step - loss: 0.0363
     Epoch 5/10
-    2593/2593 [==============================] - 358s 138ms/step - loss: 0.0313
+    2593/2593 [==============================] - 49s 19ms/step - loss: 0.0347
     Epoch 6/10
-    2593/2593 [==============================] - 400s 154ms/step - loss: 0.0304
+    2593/2593 [==============================] - 44s 17ms/step - loss: 0.0331
     Epoch 7/10
-    2593/2593 [==============================] - 330s 127ms/step - loss: 0.0298
+    2593/2593 [==============================] - 43s 17ms/step - loss: 0.0321
     Epoch 8/10
-    2593/2593 [==============================] - 308s 119ms/step - loss: 0.0289
+    2593/2593 [==============================] - 46s 18ms/step - loss: 0.0312
     Epoch 9/10
-    2593/2593 [==============================] - 324s 125ms/step - loss: 0.0282
+    2593/2593 [==============================] - 61s 24ms/step - loss: 0.0302
     Epoch 10/10
-    2593/2593 [==============================] - 294s 114ms/step - loss: 0.0276
+    2593/2593 [==============================] - 56s 21ms/step - loss: 0.0298
 
 
 ## Results
@@ -217,7 +216,6 @@ for row in range(0, 5):
 
 plt.tight_layout()
 plt.show()
-
 ```
 
 
