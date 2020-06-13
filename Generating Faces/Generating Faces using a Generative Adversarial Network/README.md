@@ -10,7 +10,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import os
 import tensorflow as tf
-import tensorflow.keras.backend as K
 import random
 
 from PIL import Image
@@ -71,7 +70,7 @@ for i in range(4):
         x = BatchNormalization(momentum = 0.9)(x)
         x = Activation('relu')(x)
     else:
-        x = Activation('tanh')(x)
+        x = Activation('sigmoid')(x)
 
 generator_output = x
 generator = Model(generator_input, generator_output)
@@ -162,7 +161,7 @@ for epoch in tqdm(range(epochs)):
     model.train_on_batch(noise, real)
 ```
 
-    100%|██████████| 5000/5000 [45:08<00:00,  1.85it/s]   
+    100%|██████████| 5000/5000 [49:21<00:00,  1.69it/s]
 
 
 ## Results
@@ -170,7 +169,7 @@ for epoch in tqdm(range(epochs)):
 
 ```python
 noise = np.random.normal(size = [25, 200])
-generated_image = np.abs(generator.predict(noise))
+generated_image = generator.predict(noise)
 
 fig, axes = plt.subplots(5, 5, figsize = (20, 20))
 i = 0
