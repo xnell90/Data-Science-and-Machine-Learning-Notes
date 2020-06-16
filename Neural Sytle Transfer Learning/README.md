@@ -54,18 +54,18 @@ display(style_image)
 ```python
 def image_to_tensor(path_to_img):
     max_dim = 1024
-    image = tf.io.read_file(path_to_img)
-    image = tf.image.decode_image(image, channels = 3)
-    image = tf.image.convert_image_dtype(image, tf.float32)
+    image_tensor = tf.io.read_file(path_to_img)
+    image_tensor = tf.image.decode_image(image_tensor, channels = 3)
+    image_tensor = tf.image.convert_image_dtype(image_tensor, tf.float32)
 
-    shape = tf.cast(tf.shape(image)[:-1], tf.float32)
+    shape = tf.cast(tf.shape(image_tensor)[:-1], tf.float32)
     scale = max_dim / max(shape)
     
     new_shape = tf.cast(shape * scale, tf.int32)
-    image = tf.image.resize(image, new_shape)
-    image = image[tf.newaxis, :]
+    image_tensor = tf.image.resize(image_tensor, new_shape)
+    image_tensor = image_tensor[tf.newaxis, :]
     
-    return image
+    return image_tensor
 
 c_image = image_to_tensor(c_path) #c = content
 s_image = image_to_tensor(s_path) #s = style
@@ -101,8 +101,8 @@ def vgg_layers(layer_names):
     return model
 
 def gram_matrix(tensor):
-    tensor_shape = tf.shape(tensor)
-    num_of_terms = tf.cast(tensor_shape[1] * tensor_shape[2], tf.float32)
+    shape_tensor = tf.shape(tensor)
+    num_of_terms = tf.cast(shape_tensor[1] * shape_tensor[2], tf.float32)
     result = tf.linalg.einsum('bijc,bijd->bcd', tensor, tensor)
     
     return result / num_of_terms
@@ -178,23 +178,23 @@ def style_content_loss(outputs):
 
 
 ```python
-image = tf.Variable(c_image)
-param = {'learning_rate': 0.02, 'beta_1': 0.99, 'epsilon': 1e-1} 
-optimizer = tf.optimizers.Adam(**param)
+image_tensor = tf.Variable(c_image)
+parameters = {'learning_rate': 0.02, 'beta_1': 0.99, 'epsilon': 1e-1} 
+optimizer  = tf.optimizers.Adam(**parameters)
 
-def clip_0_1(image):
-    return tf.clip_by_value(image, 0.0, 1.0)
+def clip_0_1(image_tensor):
+    return tf.clip_by_value(image_tensor, 0.0, 1.0)
 
 @tf.function()
 def train_step(image):
     with tf.GradientTape() as tape:
-        outputs = extractor(image)
+        outputs = extractor(image_tensor)
         loss  = style_content_loss(outputs)
-        loss += tv_weight * tf.image.total_variation(image) # To smoothen image
+        loss += tv_weight * tf.image.total_variation(image_tensor) # To smoothen image
 
-    gradients = tape.gradient(loss, image)
-    optimizer.apply_gradients([(gradients, image)])
-    image.assign(clip_0_1(image))
+    gradients = tape.gradient(loss, image_tensor)
+    optimizer.apply_gradients([(gradients, image_tensor)])
+    image_tensor.assign(clip_0_1(image_tensor))
 ```
 
 ## Train And Display New Image
@@ -202,12 +202,12 @@ def train_step(image):
 
 ```python
 for _ in tqdm(range(40)):
-    train_step(image)
+    train_step(image_tensor)
 
-tensor_to_image(image)
+tensor_to_image(image_tensor)
 ```
 
-    100%|██████████| 40/40 [09:58<00:00, 14.97s/it]
+    100%|██████████| 40/40 [16:37<00:00, 24.95s/it]
 
 
 
