@@ -1,4 +1,4 @@
-# Neural style transfer
+# Neural Style Transfer Learning
 
 ## Import Necessary Libraries
 
