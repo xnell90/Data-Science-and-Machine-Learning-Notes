@@ -1,4 +1,4 @@
-# Generating Digits Using a Variational AutoEncoder
+# Generating Digits Using A Variational AutoEncoder
 
 ## Creating A Variational AutoEncoder
 
@@ -98,22 +98,13 @@ train_images, test_images = train_images / 255, test_images / 255
 
 fig, axes = plt.subplots(6, 6, figsize = (15, 15))
 
-samples = np.array([
-    [0,  1,  2,  3,   4,  5],
-    [6,  7,  8,  9,  10, 11],
-    [12, 13, 14, 15, 16, 17],
-    [18, 19, 20, 21, 22, 23],
-    [24, 25, 26, 27, 28, 29],
-    [30, 31, 32, 33, 34, 35]
-])
-
 for row in range(0, 6):
     for col in range(0, 6):
-        current_image = train_images[samples[row, col]]
-        axes[row, col].set_title(train_labels[samples[row, col]])
+        current_image = train_images[6 * row + col]
+        axes[row, col].set_title(train_labels[6 * row + col])
         axes[row, col].axis('off')
         axes[row, col].imshow(current_image)
-
+        
 train_images = train_images.reshape((-1, 28 * 28))
 test_images  = test_images.reshape((-1, 28 * 28))
 images = np.vstack((train_images, test_images))
@@ -138,35 +129,35 @@ history = vae_model.fit(images, images, **fit_params)
 
     Train on 70000 samples
     Epoch 1/15
-    70000/70000 [==============================] - 26s 369us/sample - loss: 0.1639
+    70000/70000 [==============================] - 28s 394us/sample - loss: 0.1636
     Epoch 2/15
-    70000/70000 [==============================] - 25s 353us/sample - loss: 0.1425
+    70000/70000 [==============================] - 24s 342us/sample - loss: 0.1426
     Epoch 3/15
-    70000/70000 [==============================] - 44s 629us/sample - loss: 0.1389
+    70000/70000 [==============================] - 24s 345us/sample - loss: 0.1391
     Epoch 4/15
-    70000/70000 [==============================] - 38s 542us/sample - loss: 0.1369
+    70000/70000 [==============================] - 26s 366us/sample - loss: 0.1370
     Epoch 5/15
-    70000/70000 [==============================] - 34s 485us/sample - loss: 0.1354
+    70000/70000 [==============================] - 37s 524us/sample - loss: 0.1357
     Epoch 6/15
-    70000/70000 [==============================] - 32s 455us/sample - loss: 0.1342
+    70000/70000 [==============================] - 41s 591us/sample - loss: 0.1348
     Epoch 7/15
-    70000/70000 [==============================] - 36s 511us/sample - loss: 0.1334
+    70000/70000 [==============================] - 33s 466us/sample - loss: 0.1337
     Epoch 8/15
-    70000/70000 [==============================] - 31s 445us/sample - loss: 0.1327
+    70000/70000 [==============================] - 33s 470us/sample - loss: 0.1331
     Epoch 9/15
-    70000/70000 [==============================] - 26s 369us/sample - loss: 0.1322
+    70000/70000 [==============================] - 34s 482us/sample - loss: 0.1325
     Epoch 10/15
-    70000/70000 [==============================] - 25s 362us/sample - loss: 0.1316
+    70000/70000 [==============================] - 24s 343us/sample - loss: 0.1319
     Epoch 11/15
-    70000/70000 [==============================] - 30s 422us/sample - loss: 0.1312
+    70000/70000 [==============================] - 24s 338us/sample - loss: 0.1315
     Epoch 12/15
-    70000/70000 [==============================] - 26s 371us/sample - loss: 0.1307
+    70000/70000 [==============================] - 23s 335us/sample - loss: 0.1311
     Epoch 13/15
-    70000/70000 [==============================] - 29s 414us/sample - loss: 0.1304
+    70000/70000 [==============================] - 24s 346us/sample - loss: 0.1306
     Epoch 14/15
-    70000/70000 [==============================] - 27s 385us/sample - loss: 0.1300
+    70000/70000 [==============================] - 27s 389us/sample - loss: 0.1304
     Epoch 15/15
-    70000/70000 [==============================] - 28s 399us/sample - loss: 0.1297
+    70000/70000 [==============================] - 24s 348us/sample - loss: 0.1299
 
 
 ## Results
@@ -190,3 +181,4 @@ plt.show()
 
 
 ![png](output_19_0.png)
+
