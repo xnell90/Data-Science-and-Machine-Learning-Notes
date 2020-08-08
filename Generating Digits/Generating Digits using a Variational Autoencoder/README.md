@@ -1,4 +1,4 @@
-# Generating Digits using a Variational AutoEncoder
+# Generating Digits Using a Variational AutoEncoder
 
 ## Creating A Variational AutoEncoder
 
@@ -113,7 +113,7 @@ for row in range(0, 6):
         axes[row, col].set_title(train_labels[samples[row, col]])
         axes[row, col].axis('off')
         axes[row, col].imshow(current_image)
-        
+
 train_images = train_images.reshape((-1, 28 * 28))
 test_images  = test_images.reshape((-1, 28 * 28))
 images = np.vstack((train_images, test_images))
@@ -190,4 +190,3 @@ plt.show()
 
 
 ![png](output_19_0.png)
-
