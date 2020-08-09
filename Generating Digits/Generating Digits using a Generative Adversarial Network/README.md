@@ -70,18 +70,9 @@ X_train, X_test = X_train / 255, X_test / 255
 
 fig, axes = plt.subplots(6, 6, figsize = (15, 15))
 
-samples = np.array([
-    [0,  1,  2,  3,   4,  5],
-    [6,  7,  8,  9,  10, 11],
-    [12, 13, 14, 15, 16, 17],
-    [18, 19, 20, 21, 22, 23],
-    [24, 25, 26, 27, 28, 29],
-    [30, 31, 32, 33, 34, 35]
-])
-
 for row in range(0, 6):
     for col in range(0, 6):
-        current_image = X_train[samples[row, col]]
+        current_image = X_train[6 * row + col]
         axes[row, col].axis('off')
         axes[row, col].imshow(current_image)
 
@@ -127,7 +118,7 @@ for _ in tqdm(range(epochs)):
     
 ```
 
-    100%|██████████| 50000/50000 [36:31<00:00, 22.81it/s]  
+    100%|██████████| 50000/50000 [49:38<00:00, 16.79it/s]  
 
 
 ## Final Results
@@ -137,18 +128,10 @@ for _ in tqdm(range(epochs)):
 generated_images = generator.predict(np.random.normal(0, 1, (36, 300)))
 
 fig, axes = plt.subplots(6, 6, figsize = (15, 15))
-samples = np.array([
-    [0,  1,  2,  3,   4,  5],
-    [6,  7,  8,  9,  10, 11],
-    [12, 13, 14, 15, 16, 17],
-    [18, 19, 20, 21, 22, 23],
-    [24, 25, 26, 27, 28, 29],
-    [30, 31, 32, 33, 34, 35]
-])
 
 for row in range(0, 6):
     for col in range(0, 6):
-        current_image = generated_images[samples[row, col]]
+        current_image = generated_images[6 * row + col]
         axes[row, col].axis('off')
         axes[row, col].imshow(current_image)
 
