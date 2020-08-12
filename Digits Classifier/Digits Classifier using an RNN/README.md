@@ -11,9 +11,9 @@ indims  = 28
 neurons = 150
 outdims = 10
 
-input_layer   = tf.keras.layers.Input(shape = (steps, indims))
-logits_layer  = tf.keras.layers.SimpleRNN(neurons)(input_layer)
-output_layer  = tf.keras.layers.Dense(outdims, activation = 'softmax')(logits_layer)
+input_layer  = tf.keras.layers.Input(shape = (steps, indims))
+logits_layer = tf.keras.layers.SimpleRNN(neurons)(input_layer)
+output_layer = tf.keras.layers.Dense(outdims, activation = 'softmax')(logits_layer)
 
 rnn_model = tf.keras.Model(inputs = input_layer, outputs = output_layer)
 rnn_model.compile(loss = 'categorical_crossentropy', optimizer = 'adam', metrics = ['accuracy'])
@@ -36,19 +36,10 @@ y_test  = tf.keras.utils.to_categorical(y_test)
 
 fig, axes = plt.subplots(6, 6, figsize = (15, 15))
 
-samples = np.array([
-    [0,  1,  2,  3,   4,  5],
-    [6,  7,  8,  9,  10, 11],
-    [12, 13, 14, 15, 16, 17],
-    [18, 19, 20, 21, 22, 23],
-    [24, 25, 26, 27, 28, 29],
-    [30, 31, 32, 33, 34, 35]
-])
-
 for row in range(0, 6):
     for col in range(0, 6):
-        current_image = X_train[samples[row, col]]
-        axes[row, col].set_title(str(y_train[samples[row, col]].argmax()))
+        current_image = X_train[6 * row + col]
+        axes[row, col].set_title(str(y_train[6 * row + col].argmax()))
         axes[row, col].axis('off')
         axes[row, col].imshow(current_image, cmap = 'gray')
 
@@ -68,7 +59,7 @@ _, rnn_model_accuracy = rnn_model.evaluate(X_test, y_test, verbose = 0)
 print("accuracy: ", rnn_model_accuracy)
 ```
 
-    accuracy:  0.9627
+    accuracy:  0.9603
 
 
 ## Plotting the Results
