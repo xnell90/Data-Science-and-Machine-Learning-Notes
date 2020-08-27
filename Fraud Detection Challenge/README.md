@@ -16,16 +16,28 @@ import time
 
 
 ```python
-fraud_data = pd.read_csv("Fraud_Data.csv")
-ip_address_to_country = pd.read_csv("IpAddress_to_Country.csv")
+fraud_dataset = pd.read_csv("Fraud_Data.csv")
+ip_to_country = pd.read_csv("IpAddress_to_Country.csv")
 
-display(fraud_data.head(5))
-display(ip_address_to_country.head(5))
+display(fraud_dataset.head(5))
+display(ip_to_country.head(5))
 ```
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -121,7 +133,19 @@ display(ip_address_to_country.head(5))
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -169,37 +193,52 @@ display(ip_address_to_country.head(5))
 
 
 ```python
-def ip_to_country(ip_address):
-    lower_bound = ip_address_to_country['lower_bound_ip_address'] <= ip_address
-    upper_bound = ip_address_to_country['upper_bound_ip_address'] >= ip_address
+def get_country(ip_address):
+    lower_bound = ip_to_country['lower_bound_ip_address'] <= ip_address
+    upper_bound = ip_to_country['upper_bound_ip_address'] >= ip_address
+    interval = lower_bound & upper_bound
     
-    if len(ip_address_to_country[lower_bound & upper_bound]['country'].values) > 0:
-        return ip_address_to_country[lower_bound & upper_bound]['country'].values[0]
+    if len(ip_to_country[interval]['country'].values) > 0:
+        return ip_to_country[interval]['country'].values[0]
     else:
         return 'None'
 ```
 
 
 ```python
-start_time = time.time()
-fraud_data['country'] = np.vectorize(ip_to_country)(fraud_data['ip_address'])
+start_time               = time.time()
+vectorize_get_country    = np.vectorize(get_country)
+fraud_dataset['country'] = vectorize_get_country(fraud_dataset['ip_address'])
+
 print("Time taken to complete process (seconds): %s" % (time.time() - start_time))
 ```
 
-    Time taken to complete process (seconds): 496.68095898628235
+    Time taken to complete process (seconds): 468.4599952697754
 
 
 
 ```python
-fraud_data.drop(columns = ['ip_address'], inplace = True)
-fraud_data.head(15)
+fraud_dataset.drop(columns = ['ip_address'], inplace = True)
+fraud_dataset.head(15)
 ```
 
 
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -437,7 +476,7 @@ fraud_data.head(15)
 
 ```python
 #Save the fraud data with country column
-fraud_data.to_csv("Fraud_Data_With_Country.csv")
+fraud_dataset.to_csv("Fraud_Data_With_Country.csv")
 ```
 
 To save a bit of time, there is a file called fraud_data_with_country that is the result of running the above cells. If it takes too long to find the country from the ip address for 151,000 rows, simply run the cell below.
@@ -445,16 +484,20 @@ To save a bit of time, there is a file called fraud_data_with_country that is th
 
 ```python
 #If fraud_data_with_country.csv file exists simply load it into a dataframe
-fraud_data = pd.read_csv("Fraud_Data_With_Country.csv", index_col = 0)
+fraud_dataset = pd.read_csv("Fraud_Data_With_Country.csv", index_col = 0)
 ```
 
 # Exploratory Data Analysis
 
 
 ```python
-print("Number of Rows: \t\t" + str(len(fraud_data)))
-print("Number of Unique User IDs: \t" + str(len(fraud_data.index.unique())))
-print("Number of Unique Device IDs: \t" + str(len(fraud_data['device_id'].unique())))
+num_rows              = str(len(fraud_dataset))
+num_unique_user_ids   = str(len(fraud_dataset.index.unique()))
+num_unique_device_ids = str(len(fraud_dataset['device_id'].unique()))
+
+print("Number of Rows: \t\t" + num_rows)
+print("Number of Unique User IDs: \t" + num_unique_user_ids)
+print("Number of Unique Device IDs: \t" + num_unique_device_ids)
 ```
 
     Number of Rows: 		151112
@@ -466,18 +509,34 @@ Based on the above table, we can conclude that there exists at least one device 
 
 
 ```python
-device_ids = (fraud_data.groupby('device_id')['user_id'].count() > 1)
+device_ids            = (fraud_dataset.groupby('device_id')['user_id'].count() > 1)
 duplicated_device_ids = np.array(device_ids[device_ids == True].index)
+
 np.random.shuffle(duplicated_device_ids)
 
 for device_id in duplicated_device_ids[0:10]:
-    if len(fraud_data[fraud_data['device_id'] == device_id]) > 2:
-        display(fraud_data[fraud_data['device_id'] == device_id])
+    device_id_filter       = fraud_dataset['device_id'] == device_id
+    fraud_dataset_filtered = fraud_dataset[device_id_filter]
+    
+    if len(fraud_dataset_filtered) > 2:
+        display(fraud_dataset_filtered)
 ```
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -497,322 +556,156 @@ for device_id in duplicated_device_ids[0:10]:
   </thead>
   <tbody>
     <tr>
-      <th>13785</th>
-      <td>150834</td>
-      <td>2015-01-07 16:42:42</td>
-      <td>2015-01-07 16:42:43</td>
-      <td>64</td>
-      <td>HHSLZRTYDORAZ</td>
-      <td>SEO</td>
-      <td>Safari</td>
-      <td>F</td>
-      <td>23</td>
-      <td>1</td>
-      <td>Sweden</td>
-    </tr>
-    <tr>
-      <th>21144</th>
-      <td>313886</td>
-      <td>2015-01-07 16:42:47</td>
-      <td>2015-01-07 16:42:48</td>
-      <td>64</td>
-      <td>HHSLZRTYDORAZ</td>
-      <td>SEO</td>
-      <td>Safari</td>
-      <td>F</td>
-      <td>23</td>
-      <td>1</td>
-      <td>Sweden</td>
-    </tr>
-    <tr>
-      <th>29106</th>
-      <td>122498</td>
-      <td>2015-01-07 16:42:45</td>
-      <td>2015-01-07 16:42:46</td>
-      <td>64</td>
-      <td>HHSLZRTYDORAZ</td>
-      <td>SEO</td>
-      <td>Safari</td>
-      <td>F</td>
-      <td>23</td>
-      <td>1</td>
-      <td>Sweden</td>
-    </tr>
-    <tr>
-      <th>34039</th>
-      <td>332173</td>
-      <td>2015-01-07 16:42:46</td>
-      <td>2015-01-07 16:42:47</td>
-      <td>64</td>
-      <td>HHSLZRTYDORAZ</td>
-      <td>SEO</td>
-      <td>Safari</td>
-      <td>F</td>
-      <td>23</td>
-      <td>1</td>
-      <td>Sweden</td>
-    </tr>
-    <tr>
-      <th>50929</th>
-      <td>229134</td>
-      <td>2015-01-07 16:42:41</td>
-      <td>2015-01-07 16:42:42</td>
-      <td>64</td>
-      <td>HHSLZRTYDORAZ</td>
-      <td>SEO</td>
-      <td>Safari</td>
-      <td>F</td>
-      <td>23</td>
-      <td>1</td>
-      <td>Sweden</td>
-    </tr>
-    <tr>
-      <th>110016</th>
-      <td>216327</td>
-      <td>2015-01-07 16:42:40</td>
-      <td>2015-01-07 16:42:41</td>
-      <td>64</td>
-      <td>HHSLZRTYDORAZ</td>
-      <td>SEO</td>
-      <td>Safari</td>
-      <td>F</td>
-      <td>23</td>
-      <td>1</td>
-      <td>Sweden</td>
-    </tr>
-    <tr>
-      <th>119328</th>
-      <td>108442</td>
-      <td>2015-01-07 16:42:39</td>
-      <td>2015-01-07 16:42:40</td>
-      <td>64</td>
-      <td>HHSLZRTYDORAZ</td>
-      <td>SEO</td>
-      <td>Safari</td>
-      <td>F</td>
-      <td>23</td>
-      <td>1</td>
-      <td>Sweden</td>
-    </tr>
-    <tr>
-      <th>121004</th>
-      <td>326979</td>
-      <td>2015-01-07 16:42:44</td>
-      <td>2015-01-07 16:42:45</td>
-      <td>64</td>
-      <td>HHSLZRTYDORAZ</td>
-      <td>SEO</td>
-      <td>Safari</td>
-      <td>F</td>
-      <td>23</td>
-      <td>1</td>
-      <td>Sweden</td>
-    </tr>
-    <tr>
-      <th>123510</th>
-      <td>131945</td>
-      <td>2015-01-07 16:42:38</td>
-      <td>2015-01-07 16:42:39</td>
-      <td>64</td>
-      <td>HHSLZRTYDORAZ</td>
-      <td>SEO</td>
-      <td>Safari</td>
-      <td>F</td>
-      <td>23</td>
-      <td>1</td>
-      <td>Sweden</td>
-    </tr>
-    <tr>
-      <th>133245</th>
-      <td>96728</td>
-      <td>2015-01-07 16:42:37</td>
-      <td>2015-01-07 16:42:38</td>
-      <td>64</td>
-      <td>HHSLZRTYDORAZ</td>
-      <td>SEO</td>
-      <td>Safari</td>
-      <td>F</td>
-      <td>23</td>
-      <td>1</td>
-      <td>Sweden</td>
-    </tr>
-    <tr>
-      <th>140122</th>
-      <td>173801</td>
-      <td>2015-01-07 16:42:36</td>
-      <td>2015-01-13 08:46:41</td>
-      <td>64</td>
-      <td>HHSLZRTYDORAZ</td>
-      <td>SEO</td>
-      <td>Safari</td>
-      <td>F</td>
-      <td>23</td>
-      <td>1</td>
-      <td>Sweden</td>
-    </tr>
-    <tr>
-      <th>145770</th>
-      <td>105970</td>
-      <td>2015-01-07 16:42:43</td>
-      <td>2015-01-07 16:42:44</td>
-      <td>64</td>
-      <td>HHSLZRTYDORAZ</td>
-      <td>SEO</td>
-      <td>Safari</td>
-      <td>F</td>
-      <td>23</td>
-      <td>1</td>
-      <td>Sweden</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
-
-<div>
-
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>user_id</th>
-      <th>signup_time</th>
-      <th>purchase_time</th>
-      <th>purchase_value</th>
-      <th>device_id</th>
-      <th>source</th>
-      <th>browser</th>
-      <th>sex</th>
-      <th>age</th>
-      <th>class</th>
-      <th>country</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>36737</th>
-      <td>227436</td>
-      <td>2015-01-05 01:39:25</td>
-      <td>2015-01-05 01:39:26</td>
-      <td>23</td>
-      <td>GNRJENYOWIXDP</td>
+      <th>15060</th>
+      <td>289366</td>
+      <td>2015-01-01 07:44:19</td>
+      <td>2015-01-01 07:44:20</td>
+      <td>33</td>
+      <td>TGWWYVXSUCQRP</td>
       <td>Ads</td>
-      <td>Chrome</td>
+      <td>IE</td>
       <td>M</td>
-      <td>49</td>
+      <td>30</td>
       <td>1</td>
       <td>United States</td>
     </tr>
     <tr>
-      <th>67390</th>
-      <td>176439</td>
-      <td>2015-01-05 01:39:23</td>
-      <td>2015-01-05 01:39:24</td>
-      <td>23</td>
-      <td>GNRJENYOWIXDP</td>
+      <th>21886</th>
+      <td>76598</td>
+      <td>2015-01-01 07:44:23</td>
+      <td>2015-01-01 07:44:24</td>
+      <td>33</td>
+      <td>TGWWYVXSUCQRP</td>
       <td>Ads</td>
-      <td>Chrome</td>
+      <td>IE</td>
       <td>M</td>
-      <td>49</td>
+      <td>30</td>
       <td>1</td>
       <td>United States</td>
     </tr>
     <tr>
-      <th>76564</th>
-      <td>155839</td>
-      <td>2015-01-05 01:39:27</td>
-      <td>2015-01-05 01:39:28</td>
-      <td>23</td>
-      <td>GNRJENYOWIXDP</td>
+      <th>31491</th>
+      <td>384676</td>
+      <td>2015-01-01 07:44:26</td>
+      <td>2015-01-01 07:44:27</td>
+      <td>33</td>
+      <td>TGWWYVXSUCQRP</td>
       <td>Ads</td>
-      <td>Chrome</td>
+      <td>IE</td>
       <td>M</td>
-      <td>49</td>
+      <td>30</td>
       <td>1</td>
       <td>United States</td>
     </tr>
     <tr>
-      <th>82948</th>
-      <td>317222</td>
-      <td>2015-01-05 01:39:29</td>
-      <td>2015-01-05 01:39:30</td>
-      <td>23</td>
-      <td>GNRJENYOWIXDP</td>
+      <th>49415</th>
+      <td>27719</td>
+      <td>2015-01-01 07:44:24</td>
+      <td>2015-01-01 07:44:25</td>
+      <td>33</td>
+      <td>TGWWYVXSUCQRP</td>
       <td>Ads</td>
-      <td>Chrome</td>
+      <td>IE</td>
       <td>M</td>
-      <td>49</td>
+      <td>30</td>
       <td>1</td>
       <td>United States</td>
     </tr>
     <tr>
-      <th>104187</th>
-      <td>398472</td>
-      <td>2015-01-05 01:39:22</td>
-      <td>2015-03-31 01:24:41</td>
-      <td>23</td>
-      <td>GNRJENYOWIXDP</td>
+      <th>59129</th>
+      <td>359381</td>
+      <td>2015-01-01 07:44:18</td>
+      <td>2015-04-16 00:28:10</td>
+      <td>33</td>
+      <td>TGWWYVXSUCQRP</td>
       <td>Ads</td>
-      <td>Chrome</td>
+      <td>IE</td>
       <td>M</td>
-      <td>49</td>
+      <td>30</td>
       <td>0</td>
       <td>United States</td>
     </tr>
     <tr>
-      <th>127210</th>
-      <td>255540</td>
-      <td>2015-01-05 01:39:24</td>
-      <td>2015-01-05 01:39:25</td>
-      <td>23</td>
-      <td>GNRJENYOWIXDP</td>
+      <th>75969</th>
+      <td>171856</td>
+      <td>2015-01-01 07:44:20</td>
+      <td>2015-01-01 07:44:21</td>
+      <td>33</td>
+      <td>TGWWYVXSUCQRP</td>
       <td>Ads</td>
-      <td>Chrome</td>
+      <td>IE</td>
       <td>M</td>
-      <td>49</td>
+      <td>30</td>
       <td>1</td>
       <td>United States</td>
     </tr>
     <tr>
-      <th>140155</th>
-      <td>167770</td>
-      <td>2015-01-05 01:39:30</td>
-      <td>2015-01-05 01:39:31</td>
-      <td>23</td>
-      <td>GNRJENYOWIXDP</td>
+      <th>81634</th>
+      <td>232448</td>
+      <td>2015-01-01 07:44:28</td>
+      <td>2015-01-01 07:44:29</td>
+      <td>33</td>
+      <td>TGWWYVXSUCQRP</td>
       <td>Ads</td>
-      <td>Chrome</td>
+      <td>IE</td>
       <td>M</td>
-      <td>49</td>
+      <td>30</td>
       <td>1</td>
       <td>United States</td>
     </tr>
     <tr>
-      <th>142540</th>
-      <td>399697</td>
-      <td>2015-01-05 01:39:26</td>
-      <td>2015-01-05 01:39:27</td>
-      <td>23</td>
-      <td>GNRJENYOWIXDP</td>
+      <th>105346</th>
+      <td>315858</td>
+      <td>2015-01-01 07:44:25</td>
+      <td>2015-01-01 07:44:26</td>
+      <td>33</td>
+      <td>TGWWYVXSUCQRP</td>
       <td>Ads</td>
-      <td>Chrome</td>
+      <td>IE</td>
       <td>M</td>
-      <td>49</td>
+      <td>30</td>
       <td>1</td>
       <td>United States</td>
     </tr>
     <tr>
-      <th>150685</th>
-      <td>270127</td>
-      <td>2015-01-05 01:39:28</td>
-      <td>2015-01-05 01:39:29</td>
-      <td>23</td>
-      <td>GNRJENYOWIXDP</td>
+      <th>106415</th>
+      <td>85432</td>
+      <td>2015-01-01 07:44:22</td>
+      <td>2015-01-01 07:44:23</td>
+      <td>33</td>
+      <td>TGWWYVXSUCQRP</td>
       <td>Ads</td>
-      <td>Chrome</td>
+      <td>IE</td>
       <td>M</td>
-      <td>49</td>
+      <td>30</td>
+      <td>1</td>
+      <td>United States</td>
+    </tr>
+    <tr>
+      <th>107373</th>
+      <td>55216</td>
+      <td>2015-01-01 07:44:21</td>
+      <td>2015-01-01 07:44:22</td>
+      <td>33</td>
+      <td>TGWWYVXSUCQRP</td>
+      <td>Ads</td>
+      <td>IE</td>
+      <td>M</td>
+      <td>30</td>
+      <td>1</td>
+      <td>United States</td>
+    </tr>
+    <tr>
+      <th>123862</th>
+      <td>102464</td>
+      <td>2015-01-01 07:44:27</td>
+      <td>2015-01-01 07:44:28</td>
+      <td>33</td>
+      <td>TGWWYVXSUCQRP</td>
+      <td>Ads</td>
+      <td>IE</td>
+      <td>M</td>
+      <td>30</td>
       <td>1</td>
       <td>United States</td>
     </tr>
@@ -826,21 +719,35 @@ As I suspect, a device that is used by more than 2 users (or 10 users) is strong
 
 ```python
 def date_diff_in_seconds(index):
-    date1 = datetime.strptime(fraud_data.iloc[index]['signup_time'], '%Y-%m-%d %H:%M:%S')
-    date2 = datetime.strptime(fraud_data.iloc[index]['purchase_time'], '%Y-%m-%d %H:%M:%S')
+    transaction = fraud_dataset.iloc[index]
+    date1 = datetime.strptime(transaction['signup_time'], '%Y-%m-%d %H:%M:%S')
+    date2 = datetime.strptime(transaction['purchase_time'], '%Y-%m-%d %H:%M:%S')
     time_delta = date2 - date1
     
     return time_delta.days * 24 * 3600 + time_delta.seconds
 
-fraud_data['time_duration (secs)'] = np.vectorize(date_diff_in_seconds)(fraud_data.index)
-fraud_data.head(5)
+vectorized_date_diff_in_seconds       = np.vectorize(date_diff_in_seconds)
+fraud_dataset['time_duration (secs)'] = vectorized_date_diff_in_seconds(fraud_dataset.index)
+fraud_dataset.head(5)
 ```
 
 
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -945,7 +852,7 @@ Now lets analyse the devices that have more than 2 users.
 
 
 ```python
-num_unique_users_to_device_id = fraud_data[['user_id', 'device_id']].groupby('device_id').count()
+num_unique_users_to_device_id = fraud_dataset[['user_id', 'device_id']].groupby('device_id').count()
 num_unique_users_to_device_id.rename(columns = {'user_id': 'num_unique_user_ids'}, inplace = True)
 
 minimum_num_users = num_unique_users_to_device_id['num_unique_user_ids'].min()
@@ -956,8 +863,8 @@ print("Maximum number of users per device id: %d" % maximum_num_users)
 
 count_devices_to_num_users = []
 for num_users in range(3, 21):
-    num_user_condition = (num_unique_users_to_device_id['num_unique_user_ids'] == num_users)
-    num = num_unique_users_to_device_id[num_user_condition].shape[0]
+    condition = (num_unique_users_to_device_id['num_unique_user_ids'] == num_users)
+    num = num_unique_users_to_device_id[condition].shape[0]
     count_devices_to_num_users.append(num)
 
 plt.bar([x for x in range(3, 21)], count_devices_to_num_users)
@@ -980,18 +887,20 @@ The above cell simply generates a bar graph where the y-axis is the number of de
 
 
 ```python
-device_id_is_fraudulant \
-= fraud_data[['device_id', 'class']].groupby(['device_id']).agg(lambda x:x.value_counts().index[0])
+device_id_is_fraudulant = fraud_dataset[['device_id', 'class']]\
+                            .groupby(['device_id'])\
+                            .agg(lambda x:x.value_counts().index[0])
 
 fraud_user_condition = device_id_is_fraudulant['class'] == 1
 
-count_devices_associated_with_fraud      = []
 count_devices_to_num_users               = []
+count_devices_associated_with_fraud      = []
 count_devices_not_associated_with_fraud  = []
 
 for num_users in range(3, 21):
-    num_user_condition = (num_unique_users_to_device_id['num_unique_user_ids'] == num_users)
-  
+    num_user_condition = (
+        num_unique_users_to_device_id['num_unique_user_ids'] == num_users
+    )
     num = num_unique_users_to_device_id[num_user_condition].shape[0]
     count_devices_to_num_users.append(num)
   
@@ -1021,12 +930,11 @@ Most devices that have 3 unique users are not associated to fraudulent transacti
 
 
 ```python
-non_fraudulent_transactions = fraud_data[fraud_data['class'] == 0]
-fraudulent_transactions     = fraud_data[fraud_data['class'] == 1]
+non_fraud_transactions = fraud_dataset[fraud_dataset['class'] == 0]
+fraud_transactions     = fraud_dataset[fraud_dataset['class'] == 1]
 
-non_fraudulent_transactions['purchase_value']
-sns.kdeplot(non_fraudulent_transactions['purchase_value'], shade = True, color = 'blue', label = "Non Fraud")
-sns.kdeplot(fraudulent_transactions['purchase_value'], shade = True, color = 'red', label = "Fraud")
+sns.kdeplot(non_fraud_transactions['purchase_value'], shade = True, color = 'blue', label = "Non Fraud")
+sns.kdeplot(fraud_transactions['purchase_value'], shade = True, color = 'red', label = "Fraud")
 
 plt.title("KDE plot for purchase values (Non Fraud and Fraud)")
 plt.ylabel("Probability Density")
@@ -1044,7 +952,7 @@ The KDE plot demonstrates that the distribution between fraudulent and non fraud
 
 ```python
 colors = ['#ff9999','#66b3ff','#99ff99']
-plt.pie(fraud_data[fraud_data['class'] == 1]['source'].value_counts(), colors = colors)
+plt.pie(fraud_dataset[fraud_dataset['class'] == 1]['source'].value_counts(), colors = colors)
 plt.title("How did fraudsters get access to the website?")
 plt.legend(['Ads', 'SEO', 'Direct'], bbox_to_anchor = (1.0, 1.0))
 plt.show()
@@ -1059,7 +967,7 @@ Most of them got access to the website through advertisements, and search engine
 
 ```python
 colors = ['#ff9999','#66b3ff','#99ff99','#ffcc98', 'yellow']
-plt.pie(fraud_data[fraud_data['class'] == 1]['browser'].value_counts(), colors = colors)
+plt.pie(fraud_dataset[fraud_dataset['class'] == 1]['browser'].value_counts(), colors = colors)
 plt.title("Which is the most commonly used browser for fraudsters?")
 plt.legend(['Chrome', 'IE', 'FireFox', 'Safari', 'Opera'], bbox_to_anchor=(1.0, 1.0))
 plt.show()
@@ -1073,7 +981,7 @@ Most of them use Chrome, Internet Explorer, and FireFox as their browser to acce
 
 
 ```python
-plt.pie(fraud_data[fraud_data['class'] == 1]['sex'].value_counts(), colors = ['blue', 'hotpink'])
+plt.pie(fraud_dataset[fraud_dataset['class'] == 1]['sex'].value_counts(), colors = ['blue', 'hotpink'])
 plt.title("Which gender commits the most fraud?")
 plt.legend(['M', 'F'])
 plt.show()
@@ -1087,15 +995,16 @@ Most fraudsters are male.
 
 
 ```python
-series = fraud_data[fraud_data['class'] == 1]['country'].value_counts()
+series = fraud_dataset[fraud_dataset['class'] == 1]['country'].value_counts()
 country_to_fraud_count = pd.DataFrame(series)
 dictionary = {'Other Nations': 0}
 
 for country in country_to_fraud_count.index:
-    if country_to_fraud_count.loc[country].values[0] > 450:
-        dictionary[country] = country_to_fraud_count.loc[country].values[0]
+    current_country_info = country_to_fraud_count.loc[country]
+    if current_country_info.values[0] > 450:
+        dictionary[country] = current_country_info.values[0]
     else:
-        dictionary['Other Nations'] += country_to_fraud_count.loc[country].values[0]
+        dictionary['Other Nations'] += current_country_info.values[0]
 
 country_to_fraud_count = pd.Series(dictionary)
 
@@ -1120,18 +1029,30 @@ As a preprocessing step, we will add the number of unique users column into our 
 
 
 ```python
-fraud_data['num_unique_users_for_device'] = (
-    fraud_data['device_id'].apply(lambda x: num_unique_users_to_device_id.loc[x])
+fraud_dataset['num_unique_users_for_device'] = (
+    fraud_dataset['device_id'].apply(lambda x: num_unique_users_to_device_id.loc[x])
 )
 
-fraud_data.head(10)
+fraud_dataset.head(10)
 ```
 
 
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -1322,11 +1243,18 @@ Filter out the fraud dataframe so that have the columns that are of most interes
 
 
 ```python
-columns_of_interest = ['num_unique_users_for_device', 'time_duration (secs)', 
-                       'purchase_value', 'source','browser', 'sex', 'age', 
-                       'country','class']
+columns_of_interest = [
+    'num_unique_users_for_device', 
+    'time_duration (secs)', 
+    'purchase_value', 
+    'source','browser', 
+    'sex', 
+    'age', 
+    'country',
+    'class'
+]
 
-modified_fraud_data = fraud_data[columns_of_interest].copy()
+modified_fraud_data = fraud_dataset[columns_of_interest].copy()
 modified_fraud_data = pd.get_dummies(modified_fraud_data)
 column_list = list(modified_fraud_data)
 
@@ -1341,7 +1269,19 @@ modified_fraud_data.head(10)
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -1687,11 +1627,11 @@ print("AUC score:   %f" %(roc_auc_score(y_val, y_predict)))
 
     Validation Results
     -------------
-    Accurcay:    0.950589
-    Recall:      0.520961
-    F1 Score:    0.663866
-    Precision:   0.914806
-    AUC score:   0.757974
+    Accurcay:    0.951648
+    Recall:      0.520155
+    F1 Score:    0.661519
+    Precision:   0.908397
+    AUC score:   0.757457
 
 
 After doing hyperparameter tuning, we determine that C = 5 gives the best results on our validation set. By looking at the precision score, we conclude that this model is very good at identifying a fraudulant transaction if it suspects that a transaction is fraudulant. However, the recall score indicates that the model can identify half of all fraudulant transactions.
@@ -1711,11 +1651,11 @@ print("AUC score:  %f"  %(roc_auc_score(y_test, y_predict)))
 
     Test Results
     -------------
-    Accurcay:   0.952707
-    Recall:     0.541368
-    F1 Score:   0.678657
-    Precision:  0.909237
-    AUC score:  0.767938
+    Accurcay:   0.951339
+    Recall:     0.531426
+    F1 Score:   0.672603
+    Precision:  0.915926
+    AUC score:  0.763181
 
 
 Next, we will look at the weights to determine which features are important for finding fraudulant transactions.
@@ -1738,7 +1678,19 @@ feature_ranking.head(4)
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -1752,26 +1704,26 @@ feature_ranking.head(4)
     <tr>
       <th>0</th>
       <td>num_unique_users_for_device</td>
-      <td>1.446914</td>
-      <td>1.446914</td>
+      <td>1.445626</td>
+      <td>1.445626</td>
     </tr>
     <tr>
       <th>1</th>
       <td>time_duration (secs)</td>
-      <td>0.153675</td>
-      <td>-0.153675</td>
+      <td>0.177701</td>
+      <td>-0.177701</td>
     </tr>
     <tr>
       <th>2</th>
       <td>age</td>
-      <td>0.004644</td>
-      <td>-0.004644</td>
+      <td>0.013538</td>
+      <td>-0.013538</td>
     </tr>
     <tr>
       <th>3</th>
       <td>purchase_value</td>
-      <td>0.004243</td>
-      <td>0.004243</td>
+      <td>0.005274</td>
+      <td>0.005274</td>
     </tr>
   </tbody>
 </table>
@@ -1779,60 +1731,4 @@ feature_ranking.head(4)
 
 
 
-If we look at the four features from the above table, the number of unique users is an important feature for determining fraud. To know how important is this feature when looking at fraud, it turns out to be one of the top 5 features
-
-
-```python
-feature_ranking.sort_values(by = ['Weight'], ascending = False).head(5)
-```
-
-
-
-
-<div>
-
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Features</th>
-      <th>Absolute Value Weight</th>
-      <th>Weight</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>181</th>
-      <td>country_Turkmenistan</td>
-      <td>3.953373</td>
-      <td>3.953373</td>
-    </tr>
-    <tr>
-      <th>188</th>
-      <td>country_Uzbekistan</td>
-      <td>2.017078</td>
-      <td>2.017078</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>country_Afghanistan</td>
-      <td>1.631331</td>
-      <td>1.631331</td>
-    </tr>
-    <tr>
-      <th>116</th>
-      <td>country_Malawi</td>
-      <td>1.580571</td>
-      <td>1.580571</td>
-    </tr>
-    <tr>
-      <th>0</th>
-      <td>num_unique_users_for_device</td>
-      <td>1.446914</td>
-      <td>1.446914</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
+If we look at the four features from the above table (excluding the countries where the transaction takes place), the number of unique users is an important feature for determining fraud, followed by time_duraction, age, then by purchase value.
