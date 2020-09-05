@@ -396,7 +396,7 @@ for high_low in observed_expected:
     observed_high = high_low[0]
     observed_low  = high_low[1]
 
-    total      = high_low[0] + high_low[1]
+    total      = observed_high + observed_low
     total_prop = total / len(jeopardy)
 
     expected_high = total_prop * high_value_count
