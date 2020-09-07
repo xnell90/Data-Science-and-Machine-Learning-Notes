@@ -1,4 +1,4 @@
-# Dimensionality Reduction using an Autoencoder
+# Dimensionality Reduction Using An Autoencoder
 
 ## Creating An Autoencoder
 
