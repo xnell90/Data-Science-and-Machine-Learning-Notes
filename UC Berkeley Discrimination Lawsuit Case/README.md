@@ -1,5 +1,5 @@
 
-# Is UCBerkely discriminating against women?
+# Is UCBerkeley discriminating against women?
 
 University of California, Berkeley is being sued because the prosecution claims that the university is discriminating against women who apply to graduate school. They claim that the admission rate for men is higher than that of women. I have been task to analyse the data and present my findings to the Jury. Based on what I found, the answer might surprise you. Let me explain.
 
