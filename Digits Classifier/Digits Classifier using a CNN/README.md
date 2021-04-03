@@ -86,7 +86,7 @@ def confusion_plot(actuals, predictions):
     test_labels = actuals.argmax(axis = 1)
     pred_labels = predictions.argmax(axis = 1)
     confusion = sk_metrics.confusion_matrix(test_labels, pred_labels)
-    confusion = confusion.astype("float") / confusion.sum(axis = 1)
+    confusion = confusion.astype("float") / confusion.sum(axis = 1).reshape(-1, 1)
     
     labels = [i for i in "0123456789"]
     df_cm = pd.DataFrame(confusion, index = labels, columns = labels)
