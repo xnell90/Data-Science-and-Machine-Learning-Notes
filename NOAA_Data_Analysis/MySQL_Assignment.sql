@@ -1,7 +1,7 @@
 /*Question 1*/
 SELECT
 	name AS 'Location',
-    COUNT(staid) AS '# Stations'
+	COUNT(staid) AS '# Stations'
 FROM
 	location
 LEFT JOIN stationbylocation ON stationbylocation.locid = location.locationid
@@ -19,9 +19,9 @@ States.*/
 /*Question 2*/
 SELECT
 	location.name 'Location Name',
-    ROUND(MIN(station.elevation), 2) 'Minimum Elevation',
-    ROUND(MAX(station.elevation), 2) 'Maximum Elevation',
-    ROUND(AVG(station.elevation), 1) 'Average Elevation'
+	ROUND(MIN(station.elevation), 2) 'Minimum Elevation',
+	ROUND(MAX(station.elevation), 2) 'Maximum Elevation',
+	ROUND(AVG(station.elevation), 1) 'Average Elevation'
 FROM
 	location
 LEFT JOIN stationbylocation ON stationbylocation.locid = location.locationid
@@ -50,9 +50,9 @@ average elevation is Colorad, Utah, and Wyoming.*/
 /*Question 3*/
 SELECT
     locationcategory.name 'Category Name',
-    location.name 'Location',
-    station.name 'Station',
-    station.elevation 'Elevation'
+	location.name 'Location',
+	station.name 'Station',
+	station.elevation 'Elevation'
 FROM
 	stationbylocation
 JOIN
@@ -85,9 +85,9 @@ Country = United States*/
 
 /*Question 4A*/
 SELECT
-    station.elevation AS Elevation,
-    ROUND(AVG((tmin + tmax)/2), 2) 'Average Temperature',
-    ABS(station.latitude) AS '|Latitude|'
+	station.elevation AS Elevation,
+	ROUND(AVG((tmin + tmax)/2), 2) 'Average Temperature',
+	ABS(station.latitude) AS '|Latitude|'
 FROM
 	tminmax
 LEFT JOIN
@@ -110,8 +110,8 @@ SELECT
 	AVG(elevation) 'Average Elevation', AVG(ABS(latitude)) 'Average Absolute Latitude'
 FROM
 	(
-    SELECT
-        elevation 'Elevation',
+	SELECT
+    	elevation 'Elevation',
 		ABS(latitude) ' Latitude'
 	FROM
 		station
@@ -172,8 +172,8 @@ SELECT
 	AVG(elevation) 'Average Elevation', AVG(ABS(latitude)) 'Average Absolute Latitude'
 FROM
 	(
-    SELECT
-        elevation 'Elevation',
+	SELECT
+		elevation 'Elevation',
 		ABS(latitude) ' Latitude'
 	FROM
 		station
